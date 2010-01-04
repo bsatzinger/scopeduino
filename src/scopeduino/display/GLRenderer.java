@@ -217,13 +217,6 @@ public class GLRenderer implements GLEventListener {
 
         gl.glPushMatrix();
 
-
-        float zadj = -2.0f * (float) t.age / (float) t.TTL + 1.0f;
-
-        
-        gl.glTranslatef(0.0f, 0.0f, zadj);
-
-
         drawGraph(gl, t.data, rgb[0], rgb[1], rgb[2], t.agedAlpha(), t.agedWidth(), t.xrotate);
 
         gl.glPopMatrix();
