@@ -1,3 +1,26 @@
+/**
+ * GLRenderer.java
+ *
+ * Based on (GPL) example code provided with NetBeans OpenGL plugins
+ * Credits: Brian Paul (converted to Java by Ron Cemer and Sven Goethel)
+ * http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=3260
+ *
+ * Modifications: Brian Satzinger 2009-2010
+ */
+
+//This program is free software; you can redistribute it and/or
+//modify it under the terms of the GNU General Public License as
+//published by the Free Software Foundation; either version 3 of the
+//License, or (at your option) any later version.
+//
+//This program is distributed in the hope that it will be useful, but
+//WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//General Public License for more details:
+//http://www.gnu.org/licenses/gpl.txt
+
+//Copyright 2009 Brian Satzinger
+
 package scopeduino.display;
 
 import javax.media.opengl.GL;
@@ -6,12 +29,6 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import java.util.*;
 
-/**
- * GLRenderer.java <BR>
- * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
- *
- * This version is equal to Brian Paul's version 1.2 1999/10/21
- */
 public class GLRenderer implements GLEventListener {
 
     Vector<Trace> traces = new Vector<Trace>();

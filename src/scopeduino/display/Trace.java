@@ -10,7 +10,6 @@
 //http://www.gnu.org/licenses/gpl.txt
 
 //Copyright 2009 Brian Satzinger
-//Capstone Project
 
 package scopeduino.display;
 
