@@ -68,7 +68,7 @@ public class GLScopeMac extends JFrame {
     /** Creates new form MainFrame */
     public GLScopeMac() {
         initComponents();
-        setTitle("Oscilloscope");
+        setTitle("Scopeduino");
 
         rend = new GLRenderer();
 
