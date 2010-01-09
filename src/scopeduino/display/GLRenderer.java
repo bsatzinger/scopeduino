@@ -28,6 +28,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import java.util.*;
+import serial.ScopeDAQ;
 
 public class GLRenderer implements GLEventListener {
 
@@ -43,6 +44,22 @@ public class GLRenderer implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         // Use debug pipeline
         // drawable.setGL(new DebugGL(drawable.getGL()));
+
+
+        //connect with the arduino
+        ScopeDAQ arduino = new ScopeDAQ();
+
+        try
+        {
+            arduino.connect();
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            System.exit(-14);
+        }
+
+        TraceReader reader = new TraceReader(traces, arduino);
 
 
         GL gl = drawable.getGL();
@@ -66,6 +83,8 @@ public class GLRenderer implements GLEventListener {
         zangle = 0;
 
         ScopeSettings.z = -2.5f;
+
+        reader.start();
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -149,11 +168,11 @@ public class GLRenderer implements GLEventListener {
 
         
 
-            double[] sinval = sin(1.0f, 0.0f);
+            //double[] sinval = sin(1.0f, 0.0f);
             //double[] square = signum(sinval);
 
-            Trace tnew = new Trace(sinval, 0.2f, 0.2f, 1.0f, 0.5f,1);
-            traces.add(tnew);
+            //Trace tnew = new Trace(sinval, 0.2f, 0.2f, 1.0f, 0.5f,1);
+            //traces.add(tnew);
 
             //tnew = new Trace(sin(0.5f, 20.0f), 1.0f,0.2f,0.2f,0.5f,2);
             //tnew.xrotate = -90;

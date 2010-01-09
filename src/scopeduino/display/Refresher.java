@@ -18,7 +18,7 @@ package scopeduino.display;
 
 
 import javax.media.opengl.GLCanvas;
-
+import serial.ScopeDAQ;
 
 public class Refresher extends Thread  {
 
@@ -27,12 +27,15 @@ public class Refresher extends Thread  {
     public Refresher(GLCanvas c)
     {
         canvas = c;
+
     }
 
     public void run()
     {
         for (;;)
         {
+            
+
             canvas.repaint();
 
             try

@@ -47,6 +47,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import serial.ScopeDAQ;
 
 /**
  *
@@ -104,6 +105,7 @@ public class GLScopeMac extends JFrame {
         if(!show)
             animator.start();
 
+        
         r = new Refresher(canvas);
         r.start();
     }
