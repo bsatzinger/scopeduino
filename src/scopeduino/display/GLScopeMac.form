@@ -89,6 +89,11 @@
   </Layout>
   <SubComponents>
     <Component class="javax.media.opengl.GLCanvas" name="canvas">
+      <Events>
+        <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="canvasMouseWheelMoved"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="canvasMouseReleased"/>
+        <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="canvasMouseDragged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new GLCanvas(createGLCapabilites())"/>
       </AuxValues>

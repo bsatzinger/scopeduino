@@ -27,6 +27,9 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -65,6 +68,9 @@ public class GLScopeMac extends JFrame {
     private Animator animator;
     GLRenderer rend;
     Refresher r;
+
+    int oldx = -1;
+    int oldy = -1;
 
     /** Creates new form MainFrame */
     public GLScopeMac() {
@@ -136,6 +142,22 @@ public class GLScopeMac extends JFrame {
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 formMouseClicked(evt);
+            }
+        });
+
+        canvas.addMouseWheelListener(new MouseWheelListener() {
+            public void mouseWheelMoved(MouseWheelEvent evt) {
+                canvasMouseWheelMoved(evt);
+            }
+        });
+        canvas.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent evt) {
+                canvasMouseReleased(evt);
+            }
+        });
+        canvas.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent evt) {
+                canvasMouseDragged(evt);
             }
         });
 
@@ -313,6 +335,37 @@ public class GLScopeMac extends JFrame {
     private void jCheckBox1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
         ScopeSettings.hardFirstTrace = jCheckBox1.isSelected();
     }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void canvasMouseDragged(MouseEvent evt) {//GEN-FIRST:event_canvasMouseDragged
+        // TODO add your handling code here:
+        if ((oldx == -1) || (oldy == -1))
+        {
+            oldx = evt.getX();
+            oldy = evt.getY();
+            return;
+        }
+
+        int dx = evt.getX() - oldx;
+        int dy = oldy - evt.getY();
+
+
+        oldx = evt.getX();
+        oldy = evt.getY();
+
+        rend.translate(dx, dy, 0);
+    }//GEN-LAST:event_canvasMouseDragged
+
+    private void canvasMouseReleased(MouseEvent evt) {//GEN-FIRST:event_canvasMouseReleased
+        //Mouse drag ended
+        oldx = -1;
+        oldy = -1;
+    }//GEN-LAST:event_canvasMouseReleased
+
+    private void canvasMouseWheelMoved(MouseWheelEvent evt) {//GEN-FIRST:event_canvasMouseWheelMoved
+        int dz =  -1 * evt.getWheelRotation();
+
+        rend.translate(0, 0, dz);
+    }//GEN-LAST:event_canvasMouseWheelMoved
 
     /**
      * Called from within initComponents().

@@ -37,6 +37,63 @@ public class GLRenderer implements GLEventListener {
     float yangle;
     float zangle;
 
+    float tranx = 0.0f;
+    float trany = 0.0f;
+    float tranz = 0.0f;
+
+
+    public void translate(int x, int y, int z)
+    {
+        //Scale the x and y translation roughly based on z
+        float scale;
+        
+        if (tranz > 2.0f)
+        {
+            scale = 800.0f;
+        }
+        else if (tranz > 1.0f)
+        {
+            scale = 1000.0f;
+        }
+        else
+        {
+            scale = 1200.0f;
+        }
+
+        tranx += (float) x / scale;
+        trany += (float) y / scale;
+        tranz += (float) z / 10.0f;
+
+
+        //Bound the translation
+        if (tranx > 2.0f)
+        {
+            tranx = 2.0f;
+        }
+        if (tranx < -2.0f)
+        {
+            tranx = -2.0f;
+        }
+
+        if (trany > 2.0f)
+        {
+            trany = 2.0f;
+        }
+        if (trany < -2.0f)
+        {
+            trany = -2.0f;
+        }
+
+        if (tranz > 2.4f)
+        {
+            tranz = 2.4f;
+        }
+        if (tranz < 0.0f)
+        {
+            tranz = 0.0f;
+        }
+    }
+
     public boolean rotate = false;
 
     
@@ -99,7 +156,7 @@ public class GLRenderer implements GLEventListener {
         gl.glViewport(0, 0, width, height);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(45.0f, h, 1.0, 20.0);
+        glu.gluPerspective(45.0f, h, 0.01, 20.0);
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
     }
@@ -152,50 +209,29 @@ public class GLRenderer implements GLEventListener {
             }
         }
 
+        //Do mouse translation
 
-        // Drawing Using Triangles
-        /*gl.glBegin(GL.GL_TRIANGLES);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);    // Set the current drawing color to red
-            gl.glVertex3f(0.0f, 1.0f, 0.0f);   // Top
-            gl.glColor3f(0.0f, 1.0f, 0.0f);    // Set the current drawing color to green
-            gl.glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
-            gl.glColor3f(0.0f, 0.0f, 1.0f);    // Set the current drawing color to blue
-            gl.glVertex3f(1.0f, -1.0f, 0.0f);  // Bottom Right
-        // Finished Drawing The Triangle
-        gl.glEnd();
-         * */
-        
+        gl.glTranslatef(tranx, trany, tranz);
 
-        
 
-            //double[] sinval = sin(1.0f, 0.0f);
-            //double[] square = signum(sinval);
+        //Sort the traces so they are drawn in the proper order
+        Collections.sort(traces);
 
-            //Trace tnew = new Trace(sinval, 0.2f, 0.2f, 1.0f, 0.5f,1);
-            //traces.add(tnew);
+        //Display each trace
+        Vector<Trace> expired = new Vector<Trace>();
+        for(Trace t : traces)
+        {
+            drawGraph(gl, t);
+            t.addAge();
 
-            //tnew = new Trace(sin(0.5f, 20.0f), 1.0f,0.2f,0.2f,0.5f,2);
-            //tnew.xrotate = -90;
-            //traces.add(tnew);
-
-            //Sort the traces so they are drawn in the proper order
-            Collections.sort(traces);
-
-            //Display each trace
-            Vector<Trace> expired = new Vector<Trace>();
-            for(Trace t : traces)
+            if (t.age > t.TTL)
             {
-                drawGraph(gl, t);
-                t.addAge();
-
-                if (t.age > t.TTL)
-                {
-                    expired.add(t);
-                }
+                expired.add(t);
             }
+        }
 
-            //Remove the expired elements
-            traces.removeAll(expired);
+        //Remove the expired elements
+        traces.removeAll(expired);
 
 
 
@@ -205,10 +241,10 @@ public class GLRenderer implements GLEventListener {
         drawGrid(gl);
         drawAxes(gl);
 
-        gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
+        //gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
 
-        drawGrid(gl);
-        drawAxes(gl);
+        //drawGrid(gl);
+        //drawAxes(gl);
 
         gl.glFlush();
     }
