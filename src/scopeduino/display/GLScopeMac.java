@@ -22,9 +22,14 @@
 
 package scopeduino.display;
 
+import java.util.*;
+
 import com.sun.opengl.util.Animator;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -38,19 +43,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import serial.ScopeDAQ;
+
+
 
 /**
  *
@@ -75,12 +89,17 @@ public class GLScopeMac extends JFrame {
     /** Creates new form MainFrame */
     public GLScopeMac() {
         initComponents();
+
+      
         setTitle("Scopeduino");
 
         rend = new GLRenderer();
 
         canvas.addGLEventListener(rend);
         animator = new Animator(canvas);
+
+
+
 
         // This is a workaround for the GLCanvas not adjusting its size, when the frame is resized.
         canvas.setMinimumSize(new Dimension());         
@@ -125,23 +144,49 @@ public class GLScopeMac extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new JPanel();
         canvas = new GLCanvas(createGLCapabilites());
-        jSlider1 = new JSlider();
-        jLabel1 = new JLabel();
-        jSlider2 = new JSlider();
-        jLabel2 = new JLabel();
-        jLabel3 = new JLabel();
-        jSlider3 = new JSlider();
-        jSlider4 = new JSlider();
-        jSlider5 = new JSlider();
         jSlider6 = new JSlider();
-        jSlider7 = new JSlider();
+        jPanel1 = new JPanel();
+        jTabbedPane1 = new JTabbedPane();
+        ConnectionPanel = new JPanel();
+        btnDetectSerial = new JButton();
+        scrlSerialPorts = new JScrollPane();
+        lstSerialPorts = new JList();
+        btnConnect = new JButton();
+        DisplayPanel = new JPanel();
+        jLabel2 = new JLabel();
+        sldBackground = new JSlider();
+        jLabel1 = new JLabel();
+        jSlider1 = new JSlider();
         jCheckBox1 = new JCheckBox();
+        TriggerPanel = new JPanel();
+        Ch1Panel = new JPanel();
+        Ch2Panel = new JPanel();
+
+        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 formMouseClicked(evt);
+            }
+        });
+        addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+            public void windowActivated(WindowEvent evt) {
+                formWindowActivated(evt);
             }
         });
 
@@ -161,8 +206,89 @@ public class GLScopeMac extends JFrame {
             }
         });
 
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        btnDetectSerial.setLabel("Detect Serial Ports");
+        btnDetectSerial.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                btnDetectSerialMouseClicked(evt);
+            }
+        });
+        btnDetectSerial.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                btnDetectSerialActionPerformed(evt);
+            }
+        });
+
+        lstSerialPorts.setModel(new AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        scrlSerialPorts.setViewportView(lstSerialPorts);
+
+        btnConnect.setText("Connect");
+        btnConnect.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                btnConnectMouseClicked(evt);
+            }
+        });
+
+        GroupLayout ConnectionPanelLayout = new GroupLayout(ConnectionPanel);
+        ConnectionPanel.setLayout(ConnectionPanelLayout);
+        ConnectionPanelLayout.setHorizontalGroup(
+            ConnectionPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(ConnectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ConnectionPanelLayout.createParallelGroup(Alignment.LEADING)
+                    .addComponent(scrlSerialPorts, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(btnDetectSerial, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(btnConnect, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        ConnectionPanelLayout.setVerticalGroup(
+            ConnectionPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(ConnectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnDetectSerial)
+                .addPreferredGap(ComponentPlacement.RELATED)
+                .addComponent(scrlSerialPorts, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(ComponentPlacement.RELATED)
+                .addComponent(btnConnect)
+                .addContainerGap(247, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Connection", ConnectionPanel);
+
+        DisplayPanel.setBorder(BorderFactory.createEtchedBorder());
+
+        jLabel2.setText(" Background:");
+
+        sldBackground.setPaintTicks(true);
+        sldBackground.setPaintTrack(false);
+        sldBackground.setValue(0);
+        sldBackground.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldBackgroundStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText(" Time To Live:");
+
         jSlider1.setMaximum(200);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setPaintTrack(false);
         jSlider1.setName("Time To Live"); // NOI18N
+        jSlider1.setOpaque(true);
         jSlider1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 jSlider1StateChanged(evt);
@@ -174,50 +300,6 @@ public class GLScopeMac extends JFrame {
             }
         });
 
-        jLabel1.setText("Time To Live:");
-
-        jSlider2.setValue(0);
-        jSlider2.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSlider2StateChanged(evt);
-            }
-        });
-
-        jLabel2.setText("Background:");
-
-        jLabel3.setText("Transform");
-
-        jSlider3.setMaximum(360);
-        jSlider3.setValue(0);
-        jSlider3.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSlider3StateChanged(evt);
-            }
-        });
-
-        jSlider4.setMaximum(360);
-        jSlider4.setValue(0);
-        jSlider4.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSlider4StateChanged(evt);
-            }
-        });
-
-        jSlider5.setMaximum(360);
-        jSlider5.setValue(0);
-        jSlider5.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSlider5StateChanged(evt);
-            }
-        });
-
-        jSlider7.setMinimum(-100);
-        jSlider7.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jSlider7StateChanged(evt);
-            }
-        });
-
         jCheckBox1.setText("Hard First Trace");
         jCheckBox1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -225,68 +307,107 @@ public class GLScopeMac extends JFrame {
             }
         });
 
+        GroupLayout DisplayPanelLayout = new GroupLayout(DisplayPanel);
+        DisplayPanel.setLayout(DisplayPanelLayout);
+        DisplayPanelLayout.setHorizontalGroup(
+            DisplayPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+            .addComponent(sldBackground, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+            .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+            .addComponent(jCheckBox1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+        );
+        DisplayPanelLayout.setVerticalGroup(
+            DisplayPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGroup(DisplayPanelLayout.createSequentialGroup()
+                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+                .addComponent(sldBackground, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCheckBox1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
+        );
+
+        jTabbedPane1.addTab("Display", DisplayPanel);
+
+        GroupLayout TriggerPanelLayout = new GroupLayout(TriggerPanel);
+        TriggerPanel.setLayout(TriggerPanelLayout);
+        TriggerPanelLayout.setHorizontalGroup(
+            TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 275, Short.MAX_VALUE)
+        );
+        TriggerPanelLayout.setVerticalGroup(
+            TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 459, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Trigger", TriggerPanel);
+
+        GroupLayout Ch1PanelLayout = new GroupLayout(Ch1Panel);
+        Ch1Panel.setLayout(Ch1PanelLayout);
+        Ch1PanelLayout.setHorizontalGroup(
+            Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 275, Short.MAX_VALUE)
+        );
+        Ch1PanelLayout.setVerticalGroup(
+            Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 459, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Ch1", Ch1Panel);
+
+        GroupLayout Ch2PanelLayout = new GroupLayout(Ch2Panel);
+        Ch2Panel.setLayout(Ch2PanelLayout);
+        Ch2PanelLayout.setHorizontalGroup(
+            Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 275, Short.MAX_VALUE)
+        );
+        Ch2PanelLayout.setVerticalGroup(
+            Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
+            .addGap(0, 459, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Ch2", Ch2Panel);
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
-                .addPreferredGap(ComponentPlacement.RELATED)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jSlider6, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(Alignment.LEADING, false)
-                        .addComponent(jSlider5, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel3)
-                        .addComponent(jSlider4, 0, 173, Short.MAX_VALUE)
-                        .addComponent(jSlider2, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                        .addComponent(jSlider1, 0, 173, Short.MAX_VALUE)
-                        .addComponent(jSlider3, 0, 173, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jSlider6, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSlider7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jCheckBox1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(396, 396, 396)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE))
+                .addPreferredGap(ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                    .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(ComponentPlacement.UNRELATED)
-                        .addComponent(jSlider3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jSlider4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(430, 430, 430)
+                        .addComponent(jSlider6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                            .addComponent(jSlider7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSlider6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)))
+                            .addComponent(jTabbedPane1, 0, 0, Short.MAX_VALUE)
+                            .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))
                 .addContainerGap())
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Connection");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
 
-            rend.rotate = !rend.rotate;
+            //rend.rotate = !rend.rotate;
 
 
     }//GEN-LAST:event_formMouseClicked
@@ -305,32 +426,14 @@ public class GLScopeMac extends JFrame {
         Trace.TTL = jSlider1.getValue();
     }//GEN-LAST:event_jSlider1StateChanged
 
-    private void jSlider2StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider2StateChanged
+    private void sldBackgroundStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldBackgroundStateChanged
         // TODO add your handling code here:
-        float c = (float) jSlider2.getValue() / (float) jSlider2.getMaximum();
+        float c = (float) sldBackground.getValue() / (float) sldBackground.getMaximum();
 
         ScopeSettings.backr = c;
         ScopeSettings.backg = c;
         ScopeSettings.backb = c;
-    }//GEN-LAST:event_jSlider2StateChanged
-
-    private void jSlider3StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider3StateChanged
-        rend.xangle = jSlider3.getValue();
-    }//GEN-LAST:event_jSlider3StateChanged
-
-    private void jSlider4StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider4StateChanged
-        // TODO add your handling code here:
-        rend.yangle = jSlider4.getValue();
-    }//GEN-LAST:event_jSlider4StateChanged
-
-    private void jSlider5StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider5StateChanged
-        // TODO add your handling code here:
-        rend.zangle = jSlider5.getValue();
-    }//GEN-LAST:event_jSlider5StateChanged
-
-    private void jSlider7StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider7StateChanged
-        ScopeSettings.amp = jSlider7.getValue() / 100.0f;
-    }//GEN-LAST:event_jSlider7StateChanged
+    }//GEN-LAST:event_sldBackgroundStateChanged
 
     private void jCheckBox1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
         ScopeSettings.hardFirstTrace = jCheckBox1.isSelected();
@@ -366,6 +469,44 @@ public class GLScopeMac extends JFrame {
 
         rend.translate(0, 0, dz);
     }//GEN-LAST:event_canvasMouseWheelMoved
+
+    private void btnDetectSerialActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnDetectSerialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDetectSerialActionPerformed
+
+    private void btnDetectSerialMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnDetectSerialMouseClicked
+        Vector<String> ports = rend.arduino.getPorts();
+
+        lstSerialPorts.setListData(ports);
+
+    }//GEN-LAST:event_btnDetectSerialMouseClicked
+
+    private void btnConnectMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnConnectMouseClicked
+        String portname = (String)lstSerialPorts.getSelectedValue();
+        
+        System.out.println(portname);
+
+        try
+        {
+            rend.arduino.connect(portname);
+        }
+        catch (Exception e)
+        {
+            System.err.println("Couldn't Connect: " + e);
+        }
+
+        rend.startTraceReader();
+       
+
+    }//GEN-LAST:event_btnConnectMouseClicked
+
+    private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowActivated(WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * Called from within initComponents().
@@ -408,18 +549,25 @@ public class GLScopeMac extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel Ch1Panel;
+    private JPanel Ch2Panel;
+    private JPanel ConnectionPanel;
+    private JPanel DisplayPanel;
+    private JPanel TriggerPanel;
+    private JButton btnConnect;
+    private JButton btnDetectSerial;
     private GLCanvas canvas;
     private JCheckBox jCheckBox1;
     private JLabel jLabel1;
     private JLabel jLabel2;
-    private JLabel jLabel3;
+    private JPanel jPanel1;
+    private JPanel jPanel4;
     private JSlider jSlider1;
-    private JSlider jSlider2;
-    private JSlider jSlider3;
-    private JSlider jSlider4;
-    private JSlider jSlider5;
     private JSlider jSlider6;
-    private JSlider jSlider7;
+    private JTabbedPane jTabbedPane1;
+    private JList lstSerialPorts;
+    private JScrollPane scrlSerialPorts;
+    private JSlider sldBackground;
     // End of variables declaration//GEN-END:variables
 
 }
