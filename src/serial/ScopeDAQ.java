@@ -26,25 +26,24 @@ public class ScopeDAQ {
 
     public boolean connected;
 
-    public void connect() throws Exception
+    public Vector<String> getPorts()
     {
-        //Attempt to autodetect the Arduino's serial port
-        Enumeration portIdentifiers = CommPortIdentifier.getPortIdentifiers();
+        Vector<String> ports = new Vector<String>();
 
-        String portName = "";
+        Enumeration portIdentifiers = CommPortIdentifier.getPortIdentifiers();
 
         while (portIdentifiers.hasMoreElements())
         {
             CommPortIdentifier pid = (CommPortIdentifier) portIdentifiers.nextElement();
-            System.out.println("PORT FOUND: " + pid.getName());
-
-
-            if (pid.getName().toLowerCase().contains("usb"))
-            {
-                portName = new String(pid.getName());
-            }
+            ports.add(pid.getName());
         }
 
+        return ports;
+    }
+
+    public void connect(String portName) throws Exception
+    {
+        
         System.out.println("USING PORT: " + portName);
 
         CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(portName);

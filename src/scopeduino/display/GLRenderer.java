@@ -33,14 +33,18 @@ import serial.ScopeDAQ;
 public class GLRenderer implements GLEventListener {
 
     Vector<Trace> traces = new Vector<Trace>();
+    
     float xangle;
     float yangle;
     float zangle;
+    public boolean rotate = false;
 
     float tranx = 0.0f;
     float trany = 0.0f;
     float tranz = 0.0f;
 
+    ScopeDAQ arduino;
+    TraceReader reader;
 
     public void translate(int x, int y, int z)
     {
@@ -94,9 +98,12 @@ public class GLRenderer implements GLEventListener {
         }
     }
 
-    public boolean rotate = false;
 
-    
+    public void startTraceReader()
+    {
+        reader = new TraceReader(traces, arduino);
+        reader.start();
+    }
 
     public void init(GLAutoDrawable drawable) {
         // Use debug pipeline
@@ -104,19 +111,9 @@ public class GLRenderer implements GLEventListener {
 
 
         //connect with the arduino
-        ScopeDAQ arduino = new ScopeDAQ();
+        arduino = new ScopeDAQ();
 
-        try
-        {
-            arduino.connect();
-        }
-        catch (Exception e)
-        {
-            System.err.println(e);
-            System.exit(-14);
-        }
-
-        TraceReader reader = new TraceReader(traces, arduino);
+       
 
 
         GL gl = drawable.getGL();
@@ -140,8 +137,6 @@ public class GLRenderer implements GLEventListener {
         zangle = 0;
 
         ScopeSettings.z = -2.5f;
-
-        reader.start();
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -214,24 +209,31 @@ public class GLRenderer implements GLEventListener {
         gl.glTranslatef(tranx, trany, tranz);
 
 
-        //Sort the traces so they are drawn in the proper order
-        Collections.sort(traces);
+        
 
         //Display each trace
-        Vector<Trace> expired = new Vector<Trace>();
-        for(Trace t : traces)
+        synchronized(traces)
         {
-            drawGraph(gl, t);
-            t.addAge();
+            //Sort the traces so they are drawn in the proper order
+            Collections.sort(traces);
 
-            if (t.age > t.TTL)
+            Vector<Trace> expired = new Vector<Trace>();
+            for(Trace t : traces)
             {
-                expired.add(t);
+                drawGraph(gl, t);
+                t.addAge();
+
+                if (t.age > t.TTL)
+                {
+                    expired.add(t);
+                }
             }
+
+            //Remove the expired elements
+            traces.removeAll(expired);
         }
 
-        //Remove the expired elements
-        traces.removeAll(expired);
+        
 
 
 
