@@ -96,6 +96,19 @@ public class ScopeDAQ {
             return null;
         }
 
+        //clear any buffered data from before
+        try
+        {
+            while (in.ready())
+            {
+                System.out.println("DISCARDING: " + in.read());
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("While clearing buffered reader: " + e);
+        }
+
         out.print("t");
 
         //Read the number of samples in the trace

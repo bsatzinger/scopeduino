@@ -149,7 +149,7 @@
                       <Component id="scrlSerialPorts" min="-2" pref="134" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnConnect" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="247" max="32767" attributes="0"/>
+                      <EmptySpace pref="253" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -290,15 +290,35 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="275" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="jSlider2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="43" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="jSlider2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="384" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JSlider" name="jSlider2">
+              <Properties>
+                <Property name="maximum" type="int" value="255"/>
+                <Property name="minimum" type="int" value="1"/>
+                <Property name="value" type="int" value="127"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jSlider2MouseReleased"/>
+              </Events>
+            </Component>
+          </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="Ch1Panel">
           <Constraints>
@@ -317,7 +337,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="461" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -339,7 +359,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="461" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

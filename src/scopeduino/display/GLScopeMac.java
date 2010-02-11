@@ -161,6 +161,7 @@ public class GLScopeMac extends JFrame {
         jSlider1 = new JSlider();
         jCheckBox1 = new JCheckBox();
         TriggerPanel = new JPanel();
+        jSlider2 = new JSlider();
         Ch1Panel = new JPanel();
         Ch2Panel = new JPanel();
 
@@ -264,7 +265,7 @@ public class GLScopeMac extends JFrame {
                 .addComponent(scrlSerialPorts, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(btnConnect)
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Connection", ConnectionPanel);
@@ -329,15 +330,30 @@ public class GLScopeMac extends JFrame {
 
         jTabbedPane1.addTab("Display", DisplayPanel);
 
+        jSlider2.setMaximum(255);
+        jSlider2.setMinimum(1);
+        jSlider2.setValue(127);
+        jSlider2.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent evt) {
+                jSlider2MouseReleased(evt);
+            }
+        });
+
         GroupLayout TriggerPanelLayout = new GroupLayout(TriggerPanel);
         TriggerPanel.setLayout(TriggerPanelLayout);
         TriggerPanelLayout.setHorizontalGroup(
             TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGroup(TriggerPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         TriggerPanelLayout.setVerticalGroup(
             TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGroup(TriggerPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(384, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Trigger", TriggerPanel);
@@ -350,7 +366,7 @@ public class GLScopeMac extends JFrame {
         );
         Ch1PanelLayout.setVerticalGroup(
             Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGap(0, 461, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Ch1", Ch1Panel);
@@ -363,7 +379,7 @@ public class GLScopeMac extends JFrame {
         );
         Ch2PanelLayout.setVerticalGroup(
             Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGap(0, 461, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Ch2", Ch2Panel);
@@ -508,6 +524,19 @@ public class GLScopeMac extends JFrame {
         
     }//GEN-LAST:event_formWindowActivated
 
+    private void jSlider2MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider2MouseReleased
+        int val = jSlider2.getValue();
+
+        System.out.println("Sample Slider: " + val);
+
+        byte[] command = new byte[2];
+
+        command[0] = 'c';
+        command[1] = (byte) val;
+
+        rend.reader.commandQueue.add(command);
+    }//GEN-LAST:event_jSlider2MouseReleased
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -563,6 +592,7 @@ public class GLScopeMac extends JFrame {
     private JPanel jPanel1;
     private JPanel jPanel4;
     private JSlider jSlider1;
+    private JSlider jSlider2;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
     private JList lstSerialPorts;
