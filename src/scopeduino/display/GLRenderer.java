@@ -331,17 +331,19 @@ public class GLRenderer implements GLEventListener {
 
         gl.glRotatef(xrotate,1.0f,0.0f,0.0f);
 
-        gl.glLineWidth(w);
-        gl.glBegin(GL.GL_LINE_STRIP);
+
+        gl.glBegin(GL.GL_QUAD_STRIP);
             gl.glColor4f(r,g,b,a);
-            //gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
             for(int i = startIndex; i <= endIndex; i++)
             {
-                float x1 = indexToCoord(i - startIndex, endIndex - startIndex);
-                //float x2 = indexToCoord(i+1, data.length);
+                //Draw lower bound on this quad edge
+                float x = indexToCoord(i - startIndex, endIndex - startIndex);
 
-                gl.glVertex2f(x1, (float) data[i]);
-                //gl.glVertex2f(x2, (float) data[i+1]);
+                float y1 = (float) data[i] - (.01f);
+                float y2 = (float) data[i] + (.01f);
+
+                gl.glVertex2f(x, y1);
+                gl.glVertex2f(x, y2);
             }
         gl.glEnd();
 
