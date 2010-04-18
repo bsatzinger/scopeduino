@@ -158,11 +158,27 @@ public class GLScopeMac extends JFrame {
         jLabel2 = new JLabel();
         sldBackground = new JSlider();
         jLabel1 = new JLabel();
-        jSlider1 = new JSlider();
+        sldTTL = new JSlider();
+        jLabel9 = new JLabel();
+        sldAlpha = new JSlider();
         jCheckBox1 = new JCheckBox();
+        jLabel4 = new JLabel();
+        sldSectionWidth1 = new JSlider();
+        sldSectionOffset = new JSlider();
         TriggerPanel = new JPanel();
         jSlider2 = new JSlider();
+        jLabel3 = new JLabel();
+        jCheckBox2 = new JCheckBox();
+        jLabel8 = new JLabel();
+        list2 = new java.awt.List();
         Ch1Panel = new JPanel();
+        jCheckBox3 = new JCheckBox();
+        jLabel5 = new JLabel();
+        jSlider4 = new JSlider();
+        jLabel6 = new JLabel();
+        jSlider5 = new JSlider();
+        jLabel7 = new JLabel();
+        list1 = new java.awt.List();
         Ch2Panel = new JPanel();
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
@@ -251,9 +267,9 @@ public class GLScopeMac extends JFrame {
             .addGroup(ConnectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ConnectionPanelLayout.createParallelGroup(Alignment.LEADING)
-                    .addComponent(scrlSerialPorts, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                    .addComponent(btnDetectSerial, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                    .addComponent(btnConnect, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                    .addComponent(scrlSerialPorts, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                    .addComponent(btnDetectSerial, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                    .addComponent(btnConnect, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ConnectionPanelLayout.setVerticalGroup(
@@ -271,8 +287,10 @@ public class GLScopeMac extends JFrame {
         jTabbedPane1.addTab("Connection", ConnectionPanel);
 
         DisplayPanel.setBorder(BorderFactory.createEtchedBorder());
+        DisplayPanel.setLayout(new GridLayout(12, 1));
 
         jLabel2.setText(" Background:");
+        DisplayPanel.add(jLabel2);
 
         sldBackground.setPaintTicks(true);
         sldBackground.setPaintTrack(false);
@@ -282,24 +300,35 @@ public class GLScopeMac extends JFrame {
                 sldBackgroundStateChanged(evt);
             }
         });
+        DisplayPanel.add(sldBackground);
 
         jLabel1.setText(" Time To Live:");
+        DisplayPanel.add(jLabel1);
 
-        jSlider1.setMaximum(200);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setPaintTrack(false);
-        jSlider1.setName("Time To Live"); // NOI18N
-        jSlider1.setOpaque(true);
-        jSlider1.addChangeListener(new ChangeListener() {
+        sldTTL.setMaximum(1024);
+        sldTTL.setMinimum(1);
+        sldTTL.setValue(127);
+        sldTTL.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent evt) {
+                sldTTLMouseReleased(evt);
+            }
+        });
+        sldTTL.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
-                jSlider1StateChanged(evt);
+                sldTTLStateChanged(evt);
             }
         });
-        jSlider1.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                jSlider1PropertyChange(evt);
+        DisplayPanel.add(sldTTL);
+
+        jLabel9.setText(" Alpha:");
+        DisplayPanel.add(jLabel9);
+
+        sldAlpha.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldAlphaStateChanged(evt);
             }
         });
+        DisplayPanel.add(sldAlpha);
 
         jCheckBox1.setText("Hard First Trace");
         jCheckBox1.addChangeListener(new ChangeListener() {
@@ -307,26 +336,42 @@ public class GLScopeMac extends JFrame {
                 jCheckBox1StateChanged(evt);
             }
         });
+        DisplayPanel.add(jCheckBox1);
 
-        GroupLayout DisplayPanelLayout = new GroupLayout(DisplayPanel);
-        DisplayPanel.setLayout(DisplayPanelLayout);
-        DisplayPanelLayout.setHorizontalGroup(
-            DisplayPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-            .addComponent(sldBackground, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-            .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-            .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-            .addComponent(jCheckBox1, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
-        );
-        DisplayPanelLayout.setVerticalGroup(
-            DisplayPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGroup(DisplayPanelLayout.createSequentialGroup()
-                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-                .addComponent(sldBackground, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-                .addComponent(jCheckBox1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
-        );
+        jLabel4.setText("Horizontal Scale:");
+        DisplayPanel.add(jLabel4);
+
+        sldSectionWidth1.setMaximum(768);
+        sldSectionWidth1.setPaintTicks(true);
+        sldSectionWidth1.setPaintTrack(false);
+        sldSectionWidth1.setName("Time To Live"); // NOI18N
+        sldSectionWidth1.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldSectionWidth1StateChanged(evt);
+            }
+        });
+        sldSectionWidth1.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                sldSectionWidth1PropertyChange(evt);
+            }
+        });
+        DisplayPanel.add(sldSectionWidth1);
+
+        sldSectionOffset.setMaximum(768);
+        sldSectionOffset.setPaintTicks(true);
+        sldSectionOffset.setPaintTrack(false);
+        sldSectionOffset.setName("Time To Live"); // NOI18N
+        sldSectionOffset.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldSectionOffsetStateChanged(evt);
+            }
+        });
+        sldSectionOffset.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                sldSectionOffsetPropertyChange(evt);
+            }
+        });
+        DisplayPanel.add(sldSectionOffset);
 
         jTabbedPane1.addTab("Display", DisplayPanel);
 
@@ -339,34 +384,122 @@ public class GLScopeMac extends JFrame {
             }
         });
 
+        jLabel3.setText("Trigger Level");
+
+        jCheckBox2.setText("Trigger Enabled");
+        jCheckBox2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Trigger Source");
+
         GroupLayout TriggerPanelLayout = new GroupLayout(TriggerPanel);
         TriggerPanel.setLayout(TriggerPanelLayout);
         TriggerPanelLayout.setHorizontalGroup(
             TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
             .addGroup(TriggerPanelLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.TRAILING, false)
+                        .addComponent(list2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         TriggerPanelLayout.setVerticalGroup(
             TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
             .addGroup(TriggerPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel3)
                 .addGap(36, 36, 36)
                 .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jCheckBox2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(ComponentPlacement.RELATED)
+                .addComponent(list2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Trigger", TriggerPanel);
+
+        jCheckBox3.setText("Channel 1 Enable");
+        jCheckBox3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Vertical Scale");
+
+        jSlider4.setMaximum(255);
+        jSlider4.setMinimum(1);
+        jSlider4.setValue(127);
+        jSlider4.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent evt) {
+                jSlider4MouseReleased(evt);
+            }
+        });
+
+        jLabel6.setText("Vertical Offset");
+
+        jSlider5.setMaximum(255);
+        jSlider5.setMinimum(1);
+        jSlider5.setValue(127);
+        jSlider5.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent evt) {
+                jSlider5MouseReleased(evt);
+            }
+        });
+
+        jLabel7.setText("Color");
 
         GroupLayout Ch1PanelLayout = new GroupLayout(Ch1Panel);
         Ch1Panel.setLayout(Ch1PanelLayout);
         Ch1PanelLayout.setHorizontalGroup(
             Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGroup(Ch1PanelLayout.createSequentialGroup()
+                .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.TRAILING)
+                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(list1, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
+                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jCheckBox3)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)))
+                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.TRAILING)
+                            .addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSlider4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         Ch1PanelLayout.setVerticalGroup(
             Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 461, Short.MAX_VALUE)
+            .addGroup(Ch1PanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jCheckBox3)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel5)
+                .addGap(28, 28, 28)
+                .addComponent(jSlider4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel6)
+                .addGap(30, 30, 30)
+                .addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(jLabel7)
+                .addGap(20, 20, 20)
+                .addComponent(list1, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ch1", Ch1Panel);
@@ -375,11 +508,11 @@ public class GLScopeMac extends JFrame {
         Ch2Panel.setLayout(Ch2PanelLayout);
         Ch2PanelLayout.setHorizontalGroup(
             Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
         );
         Ch2PanelLayout.setVerticalGroup(
             Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 461, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Ch2", Ch2Panel);
@@ -401,7 +534,7 @@ public class GLScopeMac extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(Alignment.LEADING)
@@ -412,7 +545,7 @@ public class GLScopeMac extends JFrame {
                         .addPreferredGap(ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(Alignment.LEADING)
                             .addComponent(jTabbedPane1, 0, 0, Short.MAX_VALUE)
-                            .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))))
+                            .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -428,27 +561,14 @@ public class GLScopeMac extends JFrame {
 
     }//GEN-LAST:event_formMouseClicked
 
-    private void jSlider1PropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_jSlider1PropertyChange
-        // TODO add your handling code here:
-
-        
-
-        //
-    }//GEN-LAST:event_jSlider1PropertyChange
-
-    private void jSlider1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
-        // TODO add your handling code here:
-        System.out.println(jSlider1.getValue());
-        Trace.TTL = jSlider1.getValue();
-    }//GEN-LAST:event_jSlider1StateChanged
-
     private void sldBackgroundStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldBackgroundStateChanged
-        // TODO add your handling code here:
-        float c = (float) sldBackground.getValue() / (float) sldBackground.getMaximum();
+        int color = sldBackground.getValue();
 
-        ScopeSettings.backr = c;
-        ScopeSettings.backg = c;
-        ScopeSettings.backb = c;
+        float colorf =((float) color) / (100.0f);
+
+        ScopeSettings.backb = colorf;
+        ScopeSettings.backg = colorf;
+        ScopeSettings.backr = colorf;
     }//GEN-LAST:event_sldBackgroundStateChanged
 
     private void jCheckBox1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
@@ -537,6 +657,50 @@ public class GLScopeMac extends JFrame {
         rend.reader.commandQueue.add(command);
     }//GEN-LAST:event_jSlider2MouseReleased
 
+    private void jCheckBox2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jCheckBox3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void sldTTLMouseReleased(MouseEvent evt) {//GEN-FIRST:event_sldTTLMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sldTTLMouseReleased
+
+    private void jSlider4MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider4MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider4MouseReleased
+
+    private void jSlider5MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider5MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider5MouseReleased
+
+    private void sldSectionWidth1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldSectionWidth1StateChanged
+        rend.horizontalWindow = sldSectionWidth1.getValue();
+    }//GEN-LAST:event_sldSectionWidth1StateChanged
+
+    private void sldSectionWidth1PropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_sldSectionWidth1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sldSectionWidth1PropertyChange
+
+    private void sldSectionOffsetStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldSectionOffsetStateChanged
+        rend.horizontalOffset = sldSectionOffset.getValue();
+    }//GEN-LAST:event_sldSectionOffsetStateChanged
+
+    private void sldSectionOffsetPropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_sldSectionOffsetPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sldSectionOffsetPropertyChange
+
+    private void sldAlphaStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldAlphaStateChanged
+        Trace.alpha = (float) sldAlpha.getValue() / (100.0f);
+    }//GEN-LAST:event_sldAlphaStateChanged
+
+    private void sldTTLStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldTTLStateChanged
+        Trace.TTL = sldTTL.getValue();
+    }//GEN-LAST:event_sldTTLStateChanged
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -587,17 +751,33 @@ public class GLScopeMac extends JFrame {
     private JButton btnDetectSerial;
     private GLCanvas canvas;
     private JCheckBox jCheckBox1;
+    private JCheckBox jCheckBox2;
+    private JCheckBox jCheckBox3;
     private JLabel jLabel1;
     private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JLabel jLabel8;
+    private JLabel jLabel9;
     private JPanel jPanel1;
     private JPanel jPanel4;
-    private JSlider jSlider1;
     private JSlider jSlider2;
+    private JSlider jSlider4;
+    private JSlider jSlider5;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
+    private java.awt.List list1;
+    private java.awt.List list2;
     private JList lstSerialPorts;
     private JScrollPane scrlSerialPorts;
+    private JSlider sldAlpha;
     private JSlider sldBackground;
+    private JSlider sldSectionOffset;
+    private JSlider sldSectionWidth1;
+    private JSlider sldTTL;
     // End of variables declaration//GEN-END:variables
 
 }

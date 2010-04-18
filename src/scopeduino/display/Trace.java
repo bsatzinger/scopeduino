@@ -16,6 +16,8 @@ package scopeduino.display;
 
 public class Trace implements Comparable{
     public static int TTL = 150;
+    public static float alpha = 0.5f;
+
 
     public int age;
     public double[] data;
@@ -78,7 +80,7 @@ public class Trace implements Comparable{
 
     public float agedAlpha()
     {
-        return (0.25f) * (1 - (((float) age) / ((float) TTL)));
+        return (alpha) * (1 - (((float) age) / ((float) TTL)));
     }
 
     public void addAge()

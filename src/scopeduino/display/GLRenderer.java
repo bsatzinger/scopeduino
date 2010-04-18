@@ -43,6 +43,9 @@ public class GLRenderer implements GLEventListener {
     float trany = 0.0f;
     float tranz = 0.0f;
 
+    public int horizontalWindow = 768;
+    public int horizontalOffset = 0;
+
     ScopeDAQ arduino;
     TraceReader reader;
 
@@ -298,6 +301,29 @@ public class GLRenderer implements GLEventListener {
 
     public void drawGraph(GL gl, double[] data, float r, float g, float b, float a, float w, float xrotate)
     {
+        //Calculate start and end indices
+        int startIndex;
+        int endIndex;
+
+        startIndex = horizontalOffset;
+        endIndex = horizontalWindow + horizontalOffset;
+
+        if (endIndex >= data.length - 1)
+        {
+           int delta = endIndex - (data.length - 1);
+
+           startIndex -= delta;
+           endIndex -= delta;
+        }
+
+        if (startIndex < 0)
+        {
+
+            startIndex = 0;
+        }
+
+        System.out.println("Start: " + startIndex + " End: " + endIndex);
+
         //gl object, data, red, green, blue, alpha, width
         gl.glPushMatrix();
         
@@ -309,9 +335,9 @@ public class GLRenderer implements GLEventListener {
         gl.glBegin(GL.GL_LINE_STRIP);
             gl.glColor4f(r,g,b,a);
             //gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-            for(int i = 0; i < data.length - 1; i++)
+            for(int i = startIndex; i <= endIndex; i++)
             {
-                float x1 = indexToCoord(i, data.length);
+                float x1 = indexToCoord(i - startIndex, endIndex - startIndex);
                 //float x2 = indexToCoord(i+1, data.length);
 
                 gl.glVertex2f(x1, (float) data[i]);
