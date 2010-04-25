@@ -43,8 +43,8 @@ public class GLRenderer implements GLEventListener {
     float trany = 0.0f;
     float tranz = 0.0f;
 
-    public int horizontalWindow = 768;
-    public int horizontalOffset = 0;
+   // public int horizontalWindow = 768;
+   // public int horizontalOffset = 0;
 
     ScopeDAQ arduino;
     TraceReader reader;
@@ -246,12 +246,49 @@ public class GLRenderer implements GLEventListener {
         drawGrid(gl);
         drawAxes(gl);
 
+        drawCursors(gl);
+
         //gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
 
         //drawGrid(gl);
         //drawAxes(gl);
 
         gl.glFlush();
+    }
+
+    public void drawCursors(GL gl)
+    {
+        if (ScopeSettings.enableCursors == false)
+        {
+            return;
+        }
+
+        //draw horizontal cursors
+        gl.glLineWidth(ScopeSettings.cursorWidth);
+        gl.glBegin(GL.GL_LINES);
+            gl.glColor3f(ScopeSettings.hcursorR, ScopeSettings.hcursorG, ScopeSettings.hcursorB);
+
+            //Horizontal Cursor 1
+            gl.glVertex2f(ScopeSettings.hc1, 1.0f);
+            gl.glVertex2d(ScopeSettings.hc1, -1.0f);
+
+            //Horizontal Cursor 2
+            gl.glVertex2f(ScopeSettings.hc2, 1.0f);
+            gl.glVertex2d(ScopeSettings.hc2, -1.0f);
+
+            //Vertical color
+            gl.glColor3f(ScopeSettings.vcursorR, ScopeSettings.vcursorG, ScopeSettings.vcursorB);
+
+            //Vertical Cursor 1
+            gl.glVertex2f(-1.0f, ScopeSettings.vc1);
+            gl.glVertex2d(1.0f, ScopeSettings.vc1);
+
+            //Vertical Cursor 2
+            gl.glVertex2f(-1.0f, ScopeSettings.vc2);
+            gl.glVertex2d(1.0f, ScopeSettings.vc2);
+
+        gl.glEnd();
+
     }
 
     public void drawAxes(GL gl)
@@ -277,7 +314,7 @@ public class GLRenderer implements GLEventListener {
         gl.glBegin(GL.GL_LINES);
             gl.glColor3f(0.0f,0.2f,0.0f);
 
-            for (double x = -1.0; x < 1.05; x += .25)
+            for (double x = -1.0; x < 1.05; x += .2)
             {
                 gl.glVertex2f((float)x,-1.0f);
                 gl.glVertex2f((float)x, 1.0f);
@@ -305,8 +342,8 @@ public class GLRenderer implements GLEventListener {
         int startIndex;
         int endIndex;
 
-        startIndex = horizontalOffset;
-        endIndex = horizontalWindow + horizontalOffset;
+        startIndex = ScopeSettings.horizontalOffset;
+        endIndex = ScopeSettings.horizontalWindow + ScopeSettings.horizontalOffset;
 
         if (endIndex >= data.length - 1)
         {
@@ -339,8 +376,8 @@ public class GLRenderer implements GLEventListener {
                 //Draw lower bound on this quad edge
                 float x = indexToCoord(i - startIndex, endIndex - startIndex);
 
-                float y1 = (float) data[i] - (.01f);
-                float y2 = (float) data[i] + (.01f);
+                float y1 = (float) data[i] - (ScopeSettings.lineWidth);
+                float y2 = (float) data[i] + (ScopeSettings.lineWidth);
 
                 gl.glVertex2f(x, y1);
                 gl.glVertex2f(x, y2);

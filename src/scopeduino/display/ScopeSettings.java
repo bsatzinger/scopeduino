@@ -27,4 +27,55 @@ public class ScopeSettings {
 
     static float amp;
 
+    static float lineWidth = .01f;
+
+    //vertical cursor locations
+    static float hc1 = -1.0f;
+    static float hc2 = -1.0f;
+
+    static float vc1 = -1.0f;
+    static float vc2 = -1.0f;
+
+    static int vcChannel = 1;
+
+    //vertical cursor enable
+    static boolean enableCursors = false;
+
+    //cursor line width
+    static float cursorWidth = 1.5f;
+
+    //cursor color
+    static float hcursorR = 1.0f;
+    static float hcursorG = 1.0f;
+    static float hcursorB = 1.0f;
+
+    static float vcursorR = 1.0f;
+    static float vcursorG = 1.0f;
+    static float vcursorB = 1.0f;
+
+    //DAQ timing info
+    static float samplePeriod = .000033333f;
+
+    //Horizontal scale settings
+    static int horizontalWindow = 768;
+    static int horizontalOffset = 0;
+
+
+    //Channel 1 Color
+    static float ch1R = 0.2f;
+    static float ch1G = 0.2f;
+    static float ch1B = 1.0f;
+
+    //Channel 2 Color
+    static float ch2R = 1.0f;
+    static float ch2G = 1.0f;
+    static float ch2B = 0.2f;
+
+    //Channel 1 Vertical Scale
+    static float ch1MinV = 0.0f;
+    static float ch1MaxV = 5.0f;
+
+    //Channel 2 Vertical Scale
+    static float ch2MinV = 0.0f;
+    static float ch2MaxV = 5.0f;
 }

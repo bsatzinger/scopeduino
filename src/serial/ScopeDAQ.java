@@ -72,22 +72,41 @@ public class ScopeDAQ {
         SerialPort.STOPBITS_1,
         SerialPort.PARITY_NONE);
 
+        System.out.println("A");
+
         // Disable flow control, it's not needed
         serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 
+        System.out.println("B");
+
         // A stream for incoming data, & a stream for incoming
         OutputStream outStream = serialPort.getOutputStream();
+
+        System.out.println("C");
+
         InputStream inStream = serialPort.getInputStream();
 
+        System.out.println("D");
+
         in = new BufferedReader(new InputStreamReader(inStream));
+
+        System.out.println("E");
+
         out = new PrintStream(outStream);
+
+        System.out.println("F");
 
         //Do handshake
 
         //s for scope
         out.print("s");
 
+        System.out.println("G");
+
         String s = in.readLine();
+
+
+        System.out.println("H");
 
         if (s.contains("scopeduino version"))
         {
@@ -100,6 +119,8 @@ public class ScopeDAQ {
         }
 
         connected = true;
+
+        System.out.println("I");
     }
 
     public double[] readTrace()

@@ -49,7 +49,7 @@ public class TraceReader extends Thread {
         {
             double[] data = arduino.readTrace();
 
-            Trace t = new Trace(data,0.2f, 0.2f, 1.0f, 0.25f,1);
+            Trace t = new Trace(data,ScopeSettings.ch1R, ScopeSettings.ch1G, ScopeSettings.ch1B, 0.25f,1);
 
             //Calculate the current trace rate
             ntraces++;

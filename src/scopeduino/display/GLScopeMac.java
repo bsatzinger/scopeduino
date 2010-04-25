@@ -22,6 +22,7 @@
 
 package scopeduino.display;
 
+import java.awt.Font;
 import java.util.*;
 
 import com.sun.opengl.util.Animator;
@@ -45,6 +46,7 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -54,6 +56,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
@@ -145,6 +148,10 @@ public class GLScopeMac extends JFrame {
     private void initComponents() {
 
         jPanel4 = new JPanel();
+        buttonGroup1 = new ButtonGroup();
+        buttonGroup2 = new ButtonGroup();
+        buttonGroup3 = new ButtonGroup();
+        buttonGroup4 = new ButtonGroup();
         canvas = new GLCanvas(createGLCapabilites());
         jSlider6 = new JSlider();
         jPanel1 = new JPanel();
@@ -162,6 +169,8 @@ public class GLScopeMac extends JFrame {
         jLabel9 = new JLabel();
         sldAlpha = new JSlider();
         jCheckBox1 = new JCheckBox();
+        jLabel10 = new JLabel();
+        sldLineWidth = new JSlider();
         jLabel4 = new JLabel();
         sldSectionWidth1 = new JSlider();
         sldSectionOffset = new JSlider();
@@ -174,12 +183,27 @@ public class GLScopeMac extends JFrame {
         Ch1Panel = new JPanel();
         jCheckBox3 = new JCheckBox();
         jLabel5 = new JLabel();
-        jSlider4 = new JSlider();
+        sldCh1VertScale = new JSlider();
         jLabel6 = new JLabel();
         jSlider5 = new JSlider();
         jLabel7 = new JLabel();
         list1 = new java.awt.List();
         Ch2Panel = new JPanel();
+        CursorPanel = new JPanel();
+        chkCursorsEnabled = new JCheckBox();
+        jLabel11 = new JLabel();
+        sldHorizCursor1 = new JSlider();
+        sldHorizCursor2 = new JSlider();
+        lbldeltaT = new JLabel();
+        lblFreq = new JLabel();
+        jLabel14 = new JLabel();
+        radCh1 = new JRadioButton();
+        radCh2 = new JRadioButton();
+        sldVertCursor1 = new JSlider();
+        sldVertCursor2 = new JSlider();
+        lblV1 = new JLabel();
+        lblV2 = new JLabel();
+        lbldV = new JLabel();
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -292,8 +316,6 @@ public class GLScopeMac extends JFrame {
         jLabel2.setText(" Background:");
         DisplayPanel.add(jLabel2);
 
-        sldBackground.setPaintTicks(true);
-        sldBackground.setPaintTrack(false);
         sldBackground.setValue(0);
         sldBackground.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -323,6 +345,7 @@ public class GLScopeMac extends JFrame {
         jLabel9.setText(" Alpha:");
         DisplayPanel.add(jLabel9);
 
+        sldAlpha.setMinimum(5);
         sldAlpha.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 sldAlphaStateChanged(evt);
@@ -338,12 +361,21 @@ public class GLScopeMac extends JFrame {
         });
         DisplayPanel.add(jCheckBox1);
 
+        jLabel10.setText("Line Width");
+        DisplayPanel.add(jLabel10);
+
+        sldLineWidth.setMinimum(5);
+        sldLineWidth.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldLineWidthStateChanged(evt);
+            }
+        });
+        DisplayPanel.add(sldLineWidth);
+
         jLabel4.setText("Horizontal Scale:");
         DisplayPanel.add(jLabel4);
 
         sldSectionWidth1.setMaximum(768);
-        sldSectionWidth1.setPaintTicks(true);
-        sldSectionWidth1.setPaintTrack(false);
         sldSectionWidth1.setName("Time To Live"); // NOI18N
         sldSectionWidth1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -358,8 +390,6 @@ public class GLScopeMac extends JFrame {
         DisplayPanel.add(sldSectionWidth1);
 
         sldSectionOffset.setMaximum(768);
-        sldSectionOffset.setPaintTicks(true);
-        sldSectionOffset.setPaintTrack(false);
         sldSectionOffset.setName("Time To Live"); // NOI18N
         sldSectionOffset.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -428,25 +458,34 @@ public class GLScopeMac extends JFrame {
 
         jTabbedPane1.addTab("Trigger", TriggerPanel);
 
+        Ch1Panel.setLayout(new GridLayout(12, 0));
+
         jCheckBox3.setText("Channel 1 Enable");
         jCheckBox3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 jCheckBox3ActionPerformed(evt);
             }
         });
+        Ch1Panel.add(jCheckBox3);
 
         jLabel5.setText("Vertical Scale");
+        Ch1Panel.add(jLabel5);
 
-        jSlider4.setMaximum(255);
-        jSlider4.setMinimum(1);
-        jSlider4.setValue(127);
-        jSlider4.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent evt) {
-                jSlider4MouseReleased(evt);
+        sldCh1VertScale.setMajorTickSpacing(1);
+        sldCh1VertScale.setMaximum(3);
+        sldCh1VertScale.setMinimum(1);
+        sldCh1VertScale.setPaintTicks(true);
+        sldCh1VertScale.setSnapToTicks(true);
+        sldCh1VertScale.setValue(1);
+        sldCh1VertScale.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldCh1VertScaleStateChanged(evt);
             }
         });
+        Ch1Panel.add(sldCh1VertScale);
 
         jLabel6.setText("Vertical Offset");
+        Ch1Panel.add(jLabel6);
 
         jSlider5.setMaximum(255);
         jSlider5.setMinimum(1);
@@ -456,51 +495,11 @@ public class GLScopeMac extends JFrame {
                 jSlider5MouseReleased(evt);
             }
         });
+        Ch1Panel.add(jSlider5);
 
         jLabel7.setText("Color");
-
-        GroupLayout Ch1PanelLayout = new GroupLayout(Ch1Panel);
-        Ch1Panel.setLayout(Ch1PanelLayout);
-        Ch1PanelLayout.setHorizontalGroup(
-            Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGroup(Ch1PanelLayout.createSequentialGroup()
-                .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.TRAILING)
-                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(list1, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
-                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)))
-                    .addGroup(Alignment.LEADING, Ch1PanelLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(Ch1PanelLayout.createParallelGroup(Alignment.TRAILING)
-                            .addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSlider4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
-        Ch1PanelLayout.setVerticalGroup(
-            Ch1PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGroup(Ch1PanelLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jCheckBox3)
-                .addGap(38, 38, 38)
-                .addComponent(jLabel5)
-                .addGap(28, 28, 28)
-                .addComponent(jSlider4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel6)
-                .addGap(30, 30, 30)
-                .addComponent(jSlider5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jLabel7)
-                .addGap(20, 20, 20)
-                .addComponent(list1, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
+        Ch1Panel.add(jLabel7);
+        Ch1Panel.add(list1);
 
         jTabbedPane1.addTab("Ch1", Ch1Panel);
 
@@ -516,6 +515,110 @@ public class GLScopeMac extends JFrame {
         );
 
         jTabbedPane1.addTab("Ch2", Ch2Panel);
+
+        CursorPanel.setLayout(new GridLayout(14, 0));
+
+        chkCursorsEnabled.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        chkCursorsEnabled.setText("Cursors On");
+        chkCursorsEnabled.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                chkCursorsEnabledStateChanged(evt);
+            }
+        });
+        chkCursorsEnabled.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chkCursorsEnabledActionPerformed(evt);
+            }
+        });
+        CursorPanel.add(chkCursorsEnabled);
+
+        jLabel11.setText("Horizontal Cursors:");
+        CursorPanel.add(jLabel11);
+
+        sldHorizCursor1.setMaximum(1024);
+        sldHorizCursor1.setValue(0);
+        sldHorizCursor1.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldHorizCursor1StateChanged(evt);
+            }
+        });
+        CursorPanel.add(sldHorizCursor1);
+
+        sldHorizCursor2.setMaximum(1024);
+        sldHorizCursor2.setValue(0);
+        sldHorizCursor2.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldHorizCursor2StateChanged(evt);
+            }
+        });
+        CursorPanel.add(sldHorizCursor2);
+
+        lbldeltaT.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lbldeltaT.setText("delta T = ");
+        CursorPanel.add(lbldeltaT);
+
+        lblFreq.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblFreq.setText("1 / (delta T) = ");
+        CursorPanel.add(lblFreq);
+
+        jLabel14.setText("Vertical Cursors:");
+        CursorPanel.add(jLabel14);
+
+        radCh1.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        radCh1.setSelected(true);
+        radCh1.setText("Channel 1");
+        radCh1.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                radCh1StateChanged(evt);
+            }
+        });
+        CursorPanel.add(radCh1);
+
+        radCh2.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        radCh2.setText("Channel 2");
+        radCh2.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                radCh2StateChanged(evt);
+            }
+        });
+        radCh2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                radCh2ActionPerformed(evt);
+            }
+        });
+        CursorPanel.add(radCh2);
+
+        sldVertCursor1.setMaximum(1024);
+        sldVertCursor1.setValue(0);
+        sldVertCursor1.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldVertCursor1StateChanged(evt);
+            }
+        });
+        CursorPanel.add(sldVertCursor1);
+
+        sldVertCursor2.setMaximum(1024);
+        sldVertCursor2.setValue(0);
+        sldVertCursor2.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldVertCursor2StateChanged(evt);
+            }
+        });
+        CursorPanel.add(sldVertCursor2);
+
+        lblV1.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblV1.setText("V1 =");
+        CursorPanel.add(lblV1);
+
+        lblV2.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblV2.setText("V2 =");
+        CursorPanel.add(lblV2);
+
+        lbldV.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lbldV.setText("dV =");
+        CursorPanel.add(lbldV);
+
+        jTabbedPane1.addTab("Cursors", CursorPanel);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -669,16 +772,12 @@ public class GLScopeMac extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_sldTTLMouseReleased
 
-    private void jSlider4MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider4MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSlider4MouseReleased
-
     private void jSlider5MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider5MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jSlider5MouseReleased
 
     private void sldSectionWidth1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldSectionWidth1StateChanged
-        rend.horizontalWindow = sldSectionWidth1.getValue();
+        ScopeSettings.horizontalWindow = sldSectionWidth1.getValue();
     }//GEN-LAST:event_sldSectionWidth1StateChanged
 
     private void sldSectionWidth1PropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_sldSectionWidth1PropertyChange
@@ -686,7 +785,7 @@ public class GLScopeMac extends JFrame {
     }//GEN-LAST:event_sldSectionWidth1PropertyChange
 
     private void sldSectionOffsetStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldSectionOffsetStateChanged
-        rend.horizontalOffset = sldSectionOffset.getValue();
+        ScopeSettings.horizontalOffset = sldSectionOffset.getValue();
     }//GEN-LAST:event_sldSectionOffsetStateChanged
 
     private void sldSectionOffsetPropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_sldSectionOffsetPropertyChange
@@ -700,6 +799,209 @@ public class GLScopeMac extends JFrame {
     private void sldTTLStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldTTLStateChanged
         Trace.TTL = sldTTL.getValue();
     }//GEN-LAST:event_sldTTLStateChanged
+
+    private void sldLineWidthStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldLineWidthStateChanged
+        float lineWidth = (((float) sldLineWidth.getValue()) / 100.0f) * .1f;
+        ScopeSettings.lineWidth = lineWidth;
+    }//GEN-LAST:event_sldLineWidthStateChanged
+
+    private void chkCursorsEnabledActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chkCursorsEnabledActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkCursorsEnabledActionPerformed
+
+    private void radCh2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_radCh2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radCh2ActionPerformed
+
+    private void chkCursorsEnabledStateChanged(ChangeEvent evt) {//GEN-FIRST:event_chkCursorsEnabledStateChanged
+        if (ScopeSettings.enableCursors != chkCursorsEnabled.isSelected())
+        {
+            ScopeSettings.enableCursors = chkCursorsEnabled.isSelected();
+
+            recalculateHorizLabels();
+            updateCursorColors();
+            recalculateVertLabels();
+        }
+    }//GEN-LAST:event_chkCursorsEnabledStateChanged
+
+    private void sldHorizCursor1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldHorizCursor1StateChanged
+        float value = sldHorizCursor1.getValue() / 512.0f - 1.0f;
+
+        ScopeSettings.hc1 = value;
+
+        recalculateHorizLabels();
+    }//GEN-LAST:event_sldHorizCursor1StateChanged
+
+    private void sldHorizCursor2StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldHorizCursor2StateChanged
+        float value = sldHorizCursor2.getValue() / 512.0f - 1.0f;
+
+        ScopeSettings.hc2 = value;
+
+        recalculateHorizLabels();
+    }//GEN-LAST:event_sldHorizCursor2StateChanged
+
+    private void radCh1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_radCh1StateChanged
+        radCh2.setSelected(!radCh1.isSelected());
+
+        if (radCh1.isSelected())
+        {
+            ScopeSettings.vcChannel = 1;
+        }
+        else
+        {
+            ScopeSettings.vcChannel = 2;
+        }
+
+
+        updateCursorColors();
+        recalculateVertLabels();
+    }//GEN-LAST:event_radCh1StateChanged
+
+    private void radCh2StateChanged(ChangeEvent evt) {//GEN-FIRST:event_radCh2StateChanged
+        radCh1.setSelected(!radCh2.isSelected());
+
+        if (radCh2.isSelected())
+        {
+            ScopeSettings.vcChannel = 2;
+        }
+        else
+        {
+            ScopeSettings.vcChannel = 1;
+        }
+
+        updateCursorColors();
+        recalculateVertLabels();
+    }//GEN-LAST:event_radCh2StateChanged
+
+    private void sldVertCursor1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldVertCursor1StateChanged
+        float value = sldVertCursor1.getValue() / 512.0f - 1.0f;
+
+        ScopeSettings.vc1 = value;
+        recalculateVertLabels();
+    }//GEN-LAST:event_sldVertCursor1StateChanged
+
+    private void updateCursorColors()
+    {
+        if (ScopeSettings.vcChannel == 1)
+        {
+            ScopeSettings.vcursorR = (ScopeSettings.ch1R + 1.0f) / 2.0f;
+            ScopeSettings.vcursorG = (ScopeSettings.ch1G + 1.0f) / 2.0f;
+            ScopeSettings.vcursorB = (ScopeSettings.ch1B + 1.0f) / 2.0f;
+        }
+        else if (ScopeSettings.vcChannel == 2)
+        {
+            ScopeSettings.vcursorR = (ScopeSettings.ch2R + 1.0f) / 2.0f;
+            ScopeSettings.vcursorG = (ScopeSettings.ch2G + 1.0f) / 2.0f;
+            ScopeSettings.vcursorB = (ScopeSettings.ch2B + 1.0f) / 2.0f;
+        }
+        else
+        {
+            ScopeSettings.vcursorR = 1.0f;
+            ScopeSettings.vcursorG = 1.0f;
+            ScopeSettings.vcursorB = 1.0f;
+        }
+    }
+
+    private void recalculateHorizLabels()
+    {
+        if (ScopeSettings.enableCursors == false)
+        {
+            lbldeltaT.setText("delta T = ");
+            lblFreq.setText("1 / (delta T) = ");
+            return;
+        }
+
+        int sampleWindow = ScopeSettings.horizontalWindow;
+        float samplePeriod = ScopeSettings.samplePeriod;
+
+        //amount of time represented by the entire graph
+        float screenPeriod = sampleWindow * samplePeriod;
+
+        //fraction of the screen taken up by the 2 cursors
+        float screenFrac = Math.abs(ScopeSettings.hc2 - ScopeSettings.hc1) / 2;
+        //the /2 is because the screen goes from -1 to 1, total width of 2 units
+
+        float dT = screenPeriod * screenFrac;
+        float freq = 1 / dT;
+
+        lbldeltaT.setText("delta T = " + (dT * 1000.0f) + " ms");
+        lblFreq.setText("1 / (delta T) = " + freq + " Hz");
+
+    }
+
+    private void recalculateVertLabels()
+    {
+        if (ScopeSettings.enableCursors == false)
+        {
+            lblV1.setText("V1 =");
+            lblV2.setText("V2 =");
+            lbldV.setText("dV =");
+
+            return;
+        }
+
+        float min = 0.0f;
+        float max = 5.0f;
+
+        if (ScopeSettings.vcChannel == 1)
+        {
+            min = ScopeSettings.ch1MinV;
+            max = ScopeSettings.ch1MaxV;
+        }
+        else if (ScopeSettings.vcChannel == 2)
+        {
+            min = ScopeSettings.ch2MinV;
+            max = ScopeSettings.ch2MaxV;
+        }
+
+        //Map the vertical location from [-1,1] to [0,1]
+        float cursor1pos = (ScopeSettings.vc1 + 1.0f) / 2.0f;
+        float cursor2pos = (ScopeSettings.vc2 + 1.0f) / 2.0f;
+
+        float v1 = (max - min) * cursor1pos + min;
+        float v2 = (max - min) * cursor2pos + min;
+
+        lblV1.setText("V1 = " + v1 + " V");
+        lblV2.setText("V2 = " + v2 + " V");
+        lbldV.setText("dV = " + Math.abs(v2 - v1) + " V");
+
+
+    }
+
+    private void sldVertCursor2StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldVertCursor2StateChanged
+        float value = sldVertCursor2.getValue() / 512.0f - 1.0f;
+
+        ScopeSettings.vc2 = value;
+        recalculateVertLabels();
+    }//GEN-LAST:event_sldVertCursor2StateChanged
+
+    private void sldCh1VertScaleStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldCh1VertScaleStateChanged
+        int val = sldCh1VertScale.getValue();
+
+        if (val == 1)
+        {
+            ScopeSettings.ch1MinV = 0.0f;
+            ScopeSettings.ch1MaxV = 5.0f;
+        }
+        else if (val == 2)
+        {
+            ScopeSettings.ch1MinV = -5.0f;
+            ScopeSettings.ch1MaxV = 5.0f;
+        }
+        else if (val == 3)
+        {
+            ScopeSettings.ch1MinV = -10.0f;
+            ScopeSettings.ch1MaxV = 10.0f;
+        }
+        else
+        {
+            //default
+            ScopeSettings.ch1MinV = 0.0f;
+            ScopeSettings.ch1MaxV = 5.0f;
+        }
+
+        recalculateVertLabels();
+    }//GEN-LAST:event_sldCh1VertScaleStateChanged
 
     /**
      * Called from within initComponents().
@@ -745,15 +1047,24 @@ public class GLScopeMac extends JFrame {
     private JPanel Ch1Panel;
     private JPanel Ch2Panel;
     private JPanel ConnectionPanel;
+    private JPanel CursorPanel;
     private JPanel DisplayPanel;
     private JPanel TriggerPanel;
     private JButton btnConnect;
     private JButton btnDetectSerial;
+    private ButtonGroup buttonGroup1;
+    private ButtonGroup buttonGroup2;
+    private ButtonGroup buttonGroup3;
+    private ButtonGroup buttonGroup4;
     private GLCanvas canvas;
+    private JCheckBox chkCursorsEnabled;
     private JCheckBox jCheckBox1;
     private JCheckBox jCheckBox2;
     private JCheckBox jCheckBox3;
     private JLabel jLabel1;
+    private JLabel jLabel10;
+    private JLabel jLabel11;
+    private JLabel jLabel14;
     private JLabel jLabel2;
     private JLabel jLabel3;
     private JLabel jLabel4;
@@ -765,19 +1076,31 @@ public class GLScopeMac extends JFrame {
     private JPanel jPanel1;
     private JPanel jPanel4;
     private JSlider jSlider2;
-    private JSlider jSlider4;
     private JSlider jSlider5;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
+    private JLabel lblFreq;
+    private JLabel lblV1;
+    private JLabel lblV2;
+    private JLabel lbldV;
+    private JLabel lbldeltaT;
     private java.awt.List list1;
     private java.awt.List list2;
     private JList lstSerialPorts;
+    private JRadioButton radCh1;
+    private JRadioButton radCh2;
     private JScrollPane scrlSerialPorts;
     private JSlider sldAlpha;
     private JSlider sldBackground;
+    private JSlider sldCh1VertScale;
+    private JSlider sldHorizCursor1;
+    private JSlider sldHorizCursor2;
+    private JSlider sldLineWidth;
     private JSlider sldSectionOffset;
     private JSlider sldSectionWidth1;
     private JSlider sldTTL;
+    private JSlider sldVertCursor1;
+    private JSlider sldVertCursor2;
     // End of variables declaration//GEN-END:variables
 
 }
