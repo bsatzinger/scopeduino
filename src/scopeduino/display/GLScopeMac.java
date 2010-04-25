@@ -175,7 +175,7 @@ public class GLScopeMac extends JFrame {
         sldSectionWidth1 = new JSlider();
         sldSectionOffset = new JSlider();
         TriggerPanel = new JPanel();
-        jSlider2 = new JSlider();
+        sldTriggerLevel = new JSlider();
         jLabel3 = new JLabel();
         jCheckBox2 = new JCheckBox();
         jLabel8 = new JLabel();
@@ -405,12 +405,23 @@ public class GLScopeMac extends JFrame {
 
         jTabbedPane1.addTab("Display", DisplayPanel);
 
-        jSlider2.setMaximum(255);
-        jSlider2.setMinimum(1);
-        jSlider2.setValue(127);
-        jSlider2.addMouseListener(new MouseAdapter() {
+        sldTriggerLevel.setMaximum(1024);
+        sldTriggerLevel.setMinimum(1);
+        sldTriggerLevel.setValue(127);
+        sldTriggerLevel.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent evt) {
-                jSlider2MouseReleased(evt);
+                sldTriggerLevelMouseReleased(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                sldTriggerLevelMouseExited(evt);
+            }
+            public void mouseEntered(MouseEvent evt) {
+                sldTriggerLevelMouseEntered(evt);
+            }
+        });
+        sldTriggerLevel.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldTriggerLevelStateChanged(evt);
             }
         });
 
@@ -433,7 +444,7 @@ public class GLScopeMac extends JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
                     .addComponent(jCheckBox2)
-                    .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sldTriggerLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.TRAILING, false)
                         .addComponent(list2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -446,7 +457,7 @@ public class GLScopeMac extends JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel3)
                 .addGap(36, 36, 36)
-                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(sldTriggerLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jCheckBox2)
                 .addGap(18, 18, 18)
@@ -747,8 +758,8 @@ public class GLScopeMac extends JFrame {
         
     }//GEN-LAST:event_formWindowActivated
 
-    private void jSlider2MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider2MouseReleased
-        int val = jSlider2.getValue();
+    private void sldTriggerLevelMouseReleased(MouseEvent evt) {//GEN-FIRST:event_sldTriggerLevelMouseReleased
+        int val = sldTriggerLevel.getValue();
 
         System.out.println("Sample Slider: " + val);
 
@@ -757,8 +768,11 @@ public class GLScopeMac extends JFrame {
         command[0] = 'c';
         command[1] = (byte) val;
 
-        rend.reader.commandQueue.add(command);
-    }//GEN-LAST:event_jSlider2MouseReleased
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+    }//GEN-LAST:event_sldTriggerLevelMouseReleased
 
     private void jCheckBox2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
@@ -1003,6 +1017,22 @@ public class GLScopeMac extends JFrame {
         recalculateVertLabels();
     }//GEN-LAST:event_sldCh1VertScaleStateChanged
 
+    private void sldTriggerLevelMouseEntered(MouseEvent evt) {//GEN-FIRST:event_sldTriggerLevelMouseEntered
+        System.out.println("Entered");
+        ScopeSettings.enableTriggerIndicator = true;
+    }//GEN-LAST:event_sldTriggerLevelMouseEntered
+
+    private void sldTriggerLevelMouseExited(MouseEvent evt) {//GEN-FIRST:event_sldTriggerLevelMouseExited
+        System.out.println("Left");
+        ScopeSettings.enableTriggerIndicator = false;
+    }//GEN-LAST:event_sldTriggerLevelMouseExited
+
+    private void sldTriggerLevelStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldTriggerLevelStateChanged
+       int val = sldTriggerLevel.getValue();
+
+       ScopeSettings.triggerIndicator = val / 512.0f - 1.0f;
+    }//GEN-LAST:event_sldTriggerLevelStateChanged
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -1075,7 +1105,6 @@ public class GLScopeMac extends JFrame {
     private JLabel jLabel9;
     private JPanel jPanel1;
     private JPanel jPanel4;
-    private JSlider jSlider2;
     private JSlider jSlider5;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
@@ -1099,6 +1128,7 @@ public class GLScopeMac extends JFrame {
     private JSlider sldSectionOffset;
     private JSlider sldSectionWidth1;
     private JSlider sldTTL;
+    private JSlider sldTriggerLevel;
     private JSlider sldVertCursor1;
     private JSlider sldVertCursor2;
     // End of variables declaration//GEN-END:variables

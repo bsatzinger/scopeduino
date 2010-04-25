@@ -247,6 +247,7 @@ public class GLRenderer implements GLEventListener {
         drawAxes(gl);
 
         drawCursors(gl);
+        drawTriggerIndicator(gl);
 
         //gl.glRotatef(-90.0f,1.0f,0.0f,0.0f);
 
@@ -254,6 +255,22 @@ public class GLRenderer implements GLEventListener {
         //drawAxes(gl);
 
         gl.glFlush();
+    }
+
+    public void drawTriggerIndicator(GL gl)
+    {
+        if (ScopeSettings.enableTriggerIndicator == false)
+        {
+            return;
+        }
+
+        gl.glLineWidth(ScopeSettings.triggerWidth);
+        gl.glBegin(GL.GL_LINES);
+            gl.glColor3f(1.0f, 0.0f, 0.0f);
+
+            gl.glVertex2f(-1.0f, ScopeSettings.triggerIndicator);
+            gl.glVertex2f(1.0f, ScopeSettings.triggerIndicator);
+        gl.glEnd();
     }
 
     public void drawCursors(GL gl)
@@ -270,22 +287,22 @@ public class GLRenderer implements GLEventListener {
 
             //Horizontal Cursor 1
             gl.glVertex2f(ScopeSettings.hc1, 1.0f);
-            gl.glVertex2d(ScopeSettings.hc1, -1.0f);
+            gl.glVertex2f(ScopeSettings.hc1, -1.0f);
 
             //Horizontal Cursor 2
             gl.glVertex2f(ScopeSettings.hc2, 1.0f);
-            gl.glVertex2d(ScopeSettings.hc2, -1.0f);
+            gl.glVertex2f(ScopeSettings.hc2, -1.0f);
 
             //Vertical color
             gl.glColor3f(ScopeSettings.vcursorR, ScopeSettings.vcursorG, ScopeSettings.vcursorB);
 
             //Vertical Cursor 1
             gl.glVertex2f(-1.0f, ScopeSettings.vc1);
-            gl.glVertex2d(1.0f, ScopeSettings.vc1);
+            gl.glVertex2f(1.0f, ScopeSettings.vc1);
 
             //Vertical Cursor 2
             gl.glVertex2f(-1.0f, ScopeSettings.vc2);
-            gl.glVertex2d(1.0f, ScopeSettings.vc2);
+            gl.glVertex2f(1.0f, ScopeSettings.vc2);
 
         gl.glEnd();
 

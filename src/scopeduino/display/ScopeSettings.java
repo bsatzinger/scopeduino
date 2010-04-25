@@ -78,4 +78,10 @@ public class ScopeSettings {
     //Channel 2 Vertical Scale
     static float ch2MinV = 0.0f;
     static float ch2MaxV = 5.0f;
+
+
+    //Trigger level indicator
+    static boolean enableTriggerIndicator = false;
+    static float triggerIndicator = 0.1f;
+    static float triggerWidth = 1.0f;
 }
