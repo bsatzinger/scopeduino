@@ -162,6 +162,7 @@ public class GLScopeMac extends JFrame {
         lstSerialPorts = new JList();
         btnConnect = new JButton();
         DisplayPanel = new JPanel();
+        chkGrid = new JCheckBox();
         jLabel2 = new JLabel();
         sldBackground = new JSlider();
         jLabel1 = new JLabel();
@@ -311,11 +312,23 @@ public class GLScopeMac extends JFrame {
         jTabbedPane1.addTab("Connection", ConnectionPanel);
 
         DisplayPanel.setBorder(BorderFactory.createEtchedBorder());
-        DisplayPanel.setLayout(new GridLayout(12, 1));
+        DisplayPanel.setLayout(new GridLayout(15, 0));
+
+        chkGrid.setSelected(true);
+        chkGrid.setText("Grid");
+        chkGrid.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chkGridActionPerformed(evt);
+            }
+        });
+        DisplayPanel.add(chkGrid);
 
         jLabel2.setText(" Background:");
         DisplayPanel.add(jLabel2);
 
+        sldBackground.setMajorTickSpacing(100);
+        sldBackground.setPaintTicks(true);
+        sldBackground.setSnapToTicks(true);
         sldBackground.setValue(0);
         sldBackground.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -1033,6 +1046,10 @@ public class GLScopeMac extends JFrame {
        ScopeSettings.triggerIndicator = val / 512.0f - 1.0f;
     }//GEN-LAST:event_sldTriggerLevelStateChanged
 
+    private void chkGridActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chkGridActionPerformed
+        ScopeSettings.grid = chkGrid.isSelected();
+    }//GEN-LAST:event_chkGridActionPerformed
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -1045,8 +1062,8 @@ public class GLScopeMac extends JFrame {
         capabilities.setHardwareAccelerated(true);
 
         // try to enable 2x anti aliasing - should be supported on most hardware
-        capabilities.setNumSamples(2);
-        capabilities.setSampleBuffers(true);
+        //capabilities.setNumSamples(2);
+        //capabilities.setSampleBuffers(true);
         
         return capabilities;
     }
@@ -1088,6 +1105,7 @@ public class GLScopeMac extends JFrame {
     private ButtonGroup buttonGroup4;
     private GLCanvas canvas;
     private JCheckBox chkCursorsEnabled;
+    private JCheckBox chkGrid;
     private JCheckBox jCheckBox1;
     private JCheckBox jCheckBox2;
     private JCheckBox jCheckBox3;

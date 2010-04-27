@@ -38,6 +38,9 @@ public class ScopeSettings {
 
     static int vcChannel = 1;
 
+    //enable grid
+    static boolean grid = true;
+
     //vertical cursor enable
     static boolean enableCursors = false;
 

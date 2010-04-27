@@ -221,10 +221,19 @@
           </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-            <Property name="columns" type="int" value="1"/>
-            <Property name="rows" type="int" value="12"/>
+            <Property name="columns" type="int" value="0"/>
+            <Property name="rows" type="int" value="15"/>
           </Layout>
           <SubComponents>
+            <Component class="javax.swing.JCheckBox" name="chkGrid">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Grid"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkGridActionPerformed"/>
+              </Events>
+            </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="text" type="java.lang.String" value=" Background:"/>
@@ -232,6 +241,9 @@
             </Component>
             <Component class="javax.swing.JSlider" name="sldBackground">
               <Properties>
+                <Property name="majorTickSpacing" type="int" value="100"/>
+                <Property name="paintTicks" type="boolean" value="true"/>
+                <Property name="snapToTicks" type="boolean" value="true"/>
                 <Property name="value" type="int" value="0"/>
               </Properties>
               <Events>

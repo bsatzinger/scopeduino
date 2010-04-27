@@ -132,8 +132,8 @@ public class GLRenderer implements GLEventListener {
         gl.glEnable(GL.GL_POLYGON_SMOOTH);
         gl.glBlendFunc(gl.GL_SRC_ALPHA,gl.GL_ONE_MINUS_SRC_ALPHA);
         gl.glEnable(GL.GL_BLEND);
-        //gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
-        //gl.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
+        gl.glHint(GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+        gl.glHint(GL.GL_POLYGON_SMOOTH_HINT, GL.GL_NICEST);
 
         xangle = 0;
         yangle = 0;
@@ -283,7 +283,11 @@ public class GLRenderer implements GLEventListener {
         //draw horizontal cursors
         gl.glLineWidth(ScopeSettings.cursorWidth);
         gl.glBegin(GL.GL_LINES);
-            gl.glColor3f(ScopeSettings.hcursorR, ScopeSettings.hcursorG, ScopeSettings.hcursorB);
+            float r = Math.abs(ScopeSettings.backr - ScopeSettings.hcursorR);
+            float g = Math.abs(ScopeSettings.backg - ScopeSettings.hcursorG);
+            float b = Math.abs(ScopeSettings.backb - ScopeSettings.hcursorB);
+        
+            gl.glColor3f(r, g, b);
 
             //Horizontal Cursor 1
             gl.glVertex2f(ScopeSettings.hc1, 1.0f);
@@ -294,7 +298,10 @@ public class GLRenderer implements GLEventListener {
             gl.glVertex2f(ScopeSettings.hc2, -1.0f);
 
             //Vertical color
-            gl.glColor3f(ScopeSettings.vcursorR, ScopeSettings.vcursorG, ScopeSettings.vcursorB);
+            r = Math.abs(ScopeSettings.backr - ScopeSettings.vcursorR);
+            g = Math.abs(ScopeSettings.backg - ScopeSettings.vcursorG);
+            b = Math.abs(ScopeSettings.backb - ScopeSettings.vcursorB);
+            gl.glColor3f(r, g, b);
 
             //Vertical Cursor 1
             gl.glVertex2f(-1.0f, ScopeSettings.vc1);
@@ -327,9 +334,14 @@ public class GLRenderer implements GLEventListener {
 
     public void drawGrid(GL gl)
     {
+        if (!ScopeSettings.grid)
+        {
+            return;
+        }
+
         gl.glLineWidth(1.0f);
         gl.glBegin(GL.GL_LINES);
-            gl.glColor3f(0.0f,0.2f,0.0f);
+            gl.glColor3f(0.0f,0.5f,0.0f);
 
             for (double x = -1.0; x < 1.05; x += .2)
             {
