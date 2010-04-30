@@ -57,10 +57,10 @@ public class ScopeSettings {
     static float vcursorB = 1.0f;
 
     //DAQ timing info
-    static float samplePeriod = .000033333f;
+    static float samplePeriod = .000039859694f;
 
     //Horizontal scale settings
-    static int horizontalWindow = 768;
+    static int horizontalWindow = 256;
     static int horizontalOffset = 0;
 
 

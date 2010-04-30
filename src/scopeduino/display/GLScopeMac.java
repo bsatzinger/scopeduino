@@ -205,6 +205,9 @@ public class GLScopeMac extends JFrame {
         lblV1 = new JLabel();
         lblV2 = new JLabel();
         lbldV = new JLabel();
+        jPanel2 = new JPanel();
+        jLabel12 = new JLabel();
+        jSlider1 = new JSlider();
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -292,9 +295,9 @@ public class GLScopeMac extends JFrame {
             .addGroup(ConnectionPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ConnectionPanelLayout.createParallelGroup(Alignment.LEADING)
-                    .addComponent(scrlSerialPorts, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                    .addComponent(btnDetectSerial, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                    .addComponent(btnConnect, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
+                    .addComponent(scrlSerialPorts, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(btnDetectSerial, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                    .addComponent(btnConnect, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ConnectionPanelLayout.setVerticalGroup(
@@ -306,7 +309,7 @@ public class GLScopeMac extends JFrame {
                 .addComponent(scrlSerialPorts, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(btnConnect)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Connection", ConnectionPanel);
@@ -388,7 +391,8 @@ public class GLScopeMac extends JFrame {
         jLabel4.setText("Horizontal Scale:");
         DisplayPanel.add(jLabel4);
 
-        sldSectionWidth1.setMaximum(768);
+        sldSectionWidth1.setMaximum(256);
+        sldSectionWidth1.setValue(256);
         sldSectionWidth1.setName("Time To Live"); // NOI18N
         sldSectionWidth1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -402,7 +406,8 @@ public class GLScopeMac extends JFrame {
         });
         DisplayPanel.add(sldSectionWidth1);
 
-        sldSectionOffset.setMaximum(768);
+        sldSectionOffset.setMaximum(256);
+        sldSectionOffset.setValue(0);
         sldSectionOffset.setName("Time To Live"); // NOI18N
         sldSectionOffset.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -462,7 +467,7 @@ public class GLScopeMac extends JFrame {
                     .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.TRAILING, false)
                         .addComponent(list2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         TriggerPanelLayout.setVerticalGroup(
             TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
@@ -477,7 +482,7 @@ public class GLScopeMac extends JFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(list2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Trigger", TriggerPanel);
@@ -536,11 +541,11 @@ public class GLScopeMac extends JFrame {
         Ch2Panel.setLayout(Ch2PanelLayout);
         Ch2PanelLayout.setHorizontalGroup(
             Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 275, Short.MAX_VALUE)
         );
         Ch2PanelLayout.setVerticalGroup(
             Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGap(0, 444, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Ch2", Ch2Panel);
@@ -648,6 +653,17 @@ public class GLScopeMac extends JFrame {
         CursorPanel.add(lbldV);
 
         jTabbedPane1.addTab("Cursors", CursorPanel);
+
+        jPanel2.setLayout(new GridLayout(6, 0));
+
+        jLabel12.setText("Frequency");
+        jPanel2.add(jLabel12);
+
+        jSlider1.setMaximum(15000);
+        jSlider1.setMinimum(50);
+        jPanel2.add(jSlider1);
+
+        jTabbedPane1.addTab("tab7", jPanel2);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1052,7 +1068,7 @@ public class GLScopeMac extends JFrame {
         else if (val == 3)
         {
             ScopeSettings.ch1MinV = -10.0f;
-            ScopeSettings.ch1MaxV = 10.0f;
+            ScopeSettings.ch1MaxV = 8.438f;
         }
         else
         {
@@ -1150,6 +1166,7 @@ public class GLScopeMac extends JFrame {
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
+    private JLabel jLabel12;
     private JLabel jLabel14;
     private JLabel jLabel2;
     private JLabel jLabel3;
@@ -1160,7 +1177,9 @@ public class GLScopeMac extends JFrame {
     private JLabel jLabel8;
     private JLabel jLabel9;
     private JPanel jPanel1;
+    private JPanel jPanel2;
     private JPanel jPanel4;
+    private JSlider jSlider1;
     private JSlider jSlider5;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
