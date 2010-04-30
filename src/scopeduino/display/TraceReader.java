@@ -47,12 +47,13 @@ public class TraceReader extends Thread {
 
         while (arduino.connected)
         {
-            double[] data = arduino.readTrace();
+            Vector<double[]> data = arduino.readTrace();
 
-            Trace t = new Trace(data,ScopeSettings.ch1R, ScopeSettings.ch1G, ScopeSettings.ch1B, 0.25f,1);
+            Trace t1 = new Trace(data.elementAt(0),ScopeSettings.ch1R, ScopeSettings.ch1G, ScopeSettings.ch1B, 0.25f,1);
+            Trace t2 = new Trace(data.elementAt(1),ScopeSettings.ch2R, ScopeSettings.ch2G, ScopeSettings.ch2B, 0.25f,1);
 
             //Calculate the current trace rate
-            ntraces++;
+            ntraces += 2;
             if (ntraces > 30)
             {
                 double tracerate;
@@ -70,7 +71,8 @@ public class TraceReader extends Thread {
 
             synchronized(traces)
             {
-                traces.add(t);
+                traces.add(t1);
+                traces.add(t2);
             }
 
 

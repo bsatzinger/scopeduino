@@ -360,7 +360,7 @@ public class GLRenderer implements GLEventListener {
 
         gl.glPushMatrix();
 
-        drawGraph(gl, t.data, rgb[0], rgb[1], rgb[2], t.agedAlpha(), t.agedWidth(), t.xrotate);
+        drawGraph(gl, t.data, t.r, t.g, t.b, t.agedAlpha(), t.agedWidth(), t.xrotate);
 
         gl.glPopMatrix();
     }
@@ -388,7 +388,7 @@ public class GLRenderer implements GLEventListener {
             startIndex = 0;
         }
 
-        System.out.println("Start: " + startIndex + " End: " + endIndex);
+        //System.out.println("Start: " + startIndex + " End: " + endIndex);
 
         //gl object, data, red, green, blue, alpha, width
         gl.glPushMatrix();

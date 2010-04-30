@@ -506,6 +506,11 @@ public class GLScopeMac extends JFrame {
                 sldCh1VertScaleStateChanged(evt);
             }
         });
+        sldCh1VertScale.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                sldCh1VertScalePropertyChange(evt);
+            }
+        });
         Ch1Panel.add(sldCh1VertScale);
 
         jLabel6.setText("Vertical Offset");
@@ -542,7 +547,7 @@ public class GLScopeMac extends JFrame {
 
         CursorPanel.setLayout(new GridLayout(14, 0));
 
-        chkCursorsEnabled.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        chkCursorsEnabled.setFont(new Font("Dialog", 0, 12));
         chkCursorsEnabled.setText("Cursors On");
         chkCursorsEnabled.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -577,18 +582,18 @@ public class GLScopeMac extends JFrame {
         });
         CursorPanel.add(sldHorizCursor2);
 
-        lbldeltaT.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lbldeltaT.setFont(new Font("Dialog", 0, 12));
         lbldeltaT.setText("delta T = ");
         CursorPanel.add(lbldeltaT);
 
-        lblFreq.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblFreq.setFont(new Font("Dialog", 0, 12));
         lblFreq.setText("1 / (delta T) = ");
         CursorPanel.add(lblFreq);
 
         jLabel14.setText("Vertical Cursors:");
         CursorPanel.add(jLabel14);
 
-        radCh1.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        radCh1.setFont(new Font("Dialog", 0, 12));
         radCh1.setSelected(true);
         radCh1.setText("Channel 1");
         radCh1.addChangeListener(new ChangeListener() {
@@ -598,7 +603,7 @@ public class GLScopeMac extends JFrame {
         });
         CursorPanel.add(radCh1);
 
-        radCh2.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        radCh2.setFont(new Font("Dialog", 0, 12));
         radCh2.setText("Channel 2");
         radCh2.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
@@ -630,15 +635,15 @@ public class GLScopeMac extends JFrame {
         });
         CursorPanel.add(sldVertCursor2);
 
-        lblV1.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblV1.setFont(new Font("Dialog", 0, 12));
         lblV1.setText("V1 =");
         CursorPanel.add(lblV1);
 
-        lblV2.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lblV2.setFont(new Font("Dialog", 0, 12));
         lblV2.setText("V2 =");
         CursorPanel.add(lblV2);
 
-        lbldV.setFont(new Font("Dialog", 0, 12)); // NOI18N
+        lbldV.setFont(new Font("Dialog", 0, 12));
         lbldV.setText("dV =");
         CursorPanel.add(lbldV);
 
@@ -996,15 +1001,44 @@ public class GLScopeMac extends JFrame {
     }
 
     private void sldVertCursor2StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldVertCursor2StateChanged
-        float value = sldVertCursor2.getValue() / 512.0f - 1.0f;
+        float val = sldVertCursor2.getValue() / 512.0f - 1.0f;
 
-        ScopeSettings.vc2 = value;
+        ScopeSettings.vc2 = val;
         recalculateVertLabels();
     }//GEN-LAST:event_sldVertCursor2StateChanged
 
     private void sldCh1VertScaleStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldCh1VertScaleStateChanged
         int val = sldCh1VertScale.getValue();
+        
+        //send arduino command
+        byte[] command = new byte[2];
+         //channel 1 (a) scale command
 
+        command[0] = 'a';
+
+        if (val == 1)
+        {
+            command[1] = '0';
+        }
+        else if (val == 2)
+        {
+            command[1] = '1';
+        }
+        else
+        {
+            command[1] = '2';
+        }
+
+
+        System.out.println("Channel 1 uses : " + command[1]);
+
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+
+
+        //update display info
         if (val == 1)
         {
             ScopeSettings.ch1MinV = 0.0f;
@@ -1049,6 +1083,10 @@ public class GLScopeMac extends JFrame {
     private void chkGridActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chkGridActionPerformed
         ScopeSettings.grid = chkGrid.isSelected();
     }//GEN-LAST:event_chkGridActionPerformed
+
+    private void sldCh1VertScalePropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_sldCh1VertScalePropertyChange
+        System.out.println("PROPERTY CHANGE");
+    }//GEN-LAST:event_sldCh1VertScalePropertyChange
 
     /**
      * Called from within initComponents().

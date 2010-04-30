@@ -123,7 +123,7 @@ public class ScopeDAQ {
         System.out.println("I");
     }
 
-    public double[] readTrace()
+    public Vector<double[]> readTrace()
     {
         if (!connected)
         {
@@ -149,7 +149,7 @@ public class ScopeDAQ {
         int size;
 
 
-
+        //channel 1
         try
         {
             size = Integer.valueOf(in.readLine());
@@ -161,13 +161,13 @@ public class ScopeDAQ {
             return null;
         }
 
-        double[] trace = new double[size];
+        double[] trace1 = new double[size];
 
         try
         {
             for (int i = 0; i < size; i++)
             {
-                trace[i] = (double) Integer.valueOf(in.readLine()) / 512.0 - 1.0;
+                trace1[i] = (double) Integer.valueOf(in.readLine()) / 512.0 - 1.0;
             }
         }
         catch (Exception e)
@@ -176,7 +176,38 @@ public class ScopeDAQ {
             connected = false;
         }
 
+        //channel 2
+               try
+        {
+            size = Integer.valueOf(in.readLine());
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            connected = false;
+            return null;
+        }
 
-        return trace;
+        double[] trace2 = new double[size];
+
+        try
+        {
+            for (int i = 0; i < size; i++)
+            {
+                trace2[i] = (double) Integer.valueOf(in.readLine()) / 512.0 - 1.0;
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println(e);
+            connected = false;
+        }
+
+        Vector<double[]> traces = new Vector<double[]>(2);
+
+        traces.add(trace1);
+        traces.add(trace2);
+
+        return traces;
     }
 }
