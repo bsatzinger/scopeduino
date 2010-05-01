@@ -649,16 +649,27 @@
             <Property name="rows" type="int" value="6"/>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel12">
+            <Component class="javax.swing.JLabel" name="lblGenFreq">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Frequency"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSlider" name="jSlider1">
+            <Component class="javax.swing.JSlider" name="sldFreq">
               <Properties>
                 <Property name="maximum" type="int" value="15000"/>
                 <Property name="minimum" type="int" value="50"/>
               </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldFreqStateChanged"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="cmdSetFreq">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Set Frequency"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cmdSetFreqMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

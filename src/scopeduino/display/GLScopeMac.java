@@ -206,8 +206,9 @@ public class GLScopeMac extends JFrame {
         lblV2 = new JLabel();
         lbldV = new JLabel();
         jPanel2 = new JPanel();
-        jLabel12 = new JLabel();
-        jSlider1 = new JSlider();
+        lblGenFreq = new JLabel();
+        sldFreq = new JSlider();
+        cmdSetFreq = new JButton();
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -656,12 +657,25 @@ public class GLScopeMac extends JFrame {
 
         jPanel2.setLayout(new GridLayout(6, 0));
 
-        jLabel12.setText("Frequency");
-        jPanel2.add(jLabel12);
+        lblGenFreq.setText("Frequency");
+        jPanel2.add(lblGenFreq);
 
-        jSlider1.setMaximum(15000);
-        jSlider1.setMinimum(50);
-        jPanel2.add(jSlider1);
+        sldFreq.setMaximum(15000);
+        sldFreq.setMinimum(50);
+        sldFreq.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldFreqStateChanged(evt);
+            }
+        });
+        jPanel2.add(sldFreq);
+
+        cmdSetFreq.setText("Set Frequency");
+        cmdSetFreq.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                cmdSetFreqMouseClicked(evt);
+            }
+        });
+        jPanel2.add(cmdSetFreq);
 
         jTabbedPane1.addTab("tab7", jPanel2);
 
@@ -1104,6 +1118,29 @@ public class GLScopeMac extends JFrame {
         System.out.println("PROPERTY CHANGE");
     }//GEN-LAST:event_sldCh1VertScalePropertyChange
 
+    private void sldFreqStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldFreqStateChanged
+        lblGenFreq.setText("Frequency: " + sldFreq.getValue());
+    }//GEN-LAST:event_sldFreqStateChanged
+
+    private void cmdSetFreqMouseClicked(MouseEvent evt) {//GEN-FIRST:event_cmdSetFreqMouseClicked
+        int freq = sldFreq.getValue();
+        byte[] command = new byte[2];
+
+
+        float adjFreq = freq * 4.1856776255226f;
+        
+        short roundedFreq = (short) adjFreq;
+
+
+        System.out.println("Frequency: " + freq);
+        System.out.println("Adjusted Decimal: " + roundedFreq);
+        System.out.println("Adjusted Hex: " + Integer.toHexString((int) roundedFreq));
+
+        short a = (short) 0xC000;
+
+        System.out.println("a: " + Integer.toHexString((int) a));
+    }//GEN-LAST:event_cmdSetFreqMouseClicked
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -1160,13 +1197,13 @@ public class GLScopeMac extends JFrame {
     private GLCanvas canvas;
     private JCheckBox chkCursorsEnabled;
     private JCheckBox chkGrid;
+    private JButton cmdSetFreq;
     private JCheckBox jCheckBox1;
     private JCheckBox jCheckBox2;
     private JCheckBox jCheckBox3;
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
-    private JLabel jLabel12;
     private JLabel jLabel14;
     private JLabel jLabel2;
     private JLabel jLabel3;
@@ -1179,11 +1216,11 @@ public class GLScopeMac extends JFrame {
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel4;
-    private JSlider jSlider1;
     private JSlider jSlider5;
     private JSlider jSlider6;
     private JTabbedPane jTabbedPane1;
     private JLabel lblFreq;
+    private JLabel lblGenFreq;
     private JLabel lblV1;
     private JLabel lblV2;
     private JLabel lbldV;
@@ -1197,6 +1234,7 @@ public class GLScopeMac extends JFrame {
     private JSlider sldAlpha;
     private JSlider sldBackground;
     private JSlider sldCh1VertScale;
+    private JSlider sldFreq;
     private JSlider sldHorizCursor1;
     private JSlider sldHorizCursor2;
     private JSlider sldLineWidth;
