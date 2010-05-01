@@ -298,9 +298,9 @@ public class GLRenderer implements GLEventListener {
             gl.glVertex2f(ScopeSettings.hc2, -1.0f);
 
             //Vertical color
-            r = Math.abs(ScopeSettings.backr - ScopeSettings.vcursorR);
-            g = Math.abs(ScopeSettings.backg - ScopeSettings.vcursorG);
-            b = Math.abs(ScopeSettings.backb - ScopeSettings.vcursorB);
+            r = ScopeSettings.vcursorR;
+            g = ScopeSettings.vcursorG;
+            b = ScopeSettings.vcursorB;
             gl.glColor3f(r, g, b);
 
             //Vertical Cursor 1

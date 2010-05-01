@@ -71,7 +71,7 @@ public class ScopeSettings {
 
     //Channel 2 Color
     static float ch2R = 1.0f;
-    static float ch2G = 1.0f;
+    static float ch2G = 0.2f;
     static float ch2B = 0.2f;
 
     //Channel 1 Vertical Scale
