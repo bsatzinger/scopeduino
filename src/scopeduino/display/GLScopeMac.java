@@ -152,6 +152,8 @@ public class GLScopeMac extends JFrame {
         buttonGroup2 = new ButtonGroup();
         buttonGroup3 = new ButtonGroup();
         buttonGroup4 = new ButtonGroup();
+        buttonGroup5 = new ButtonGroup();
+        buttonGroup6 = new ButtonGroup();
         canvas = new GLCanvas(createGLCapabilites());
         jSlider6 = new JSlider();
         jPanel1 = new JPanel();
@@ -206,6 +208,10 @@ public class GLScopeMac extends JFrame {
         lblGenFreq = new JLabel();
         sldFreq = new JSlider();
         cmdSetFreq = new JButton();
+        jLabel7 = new JLabel();
+        jScrollPane1 = new JScrollPane();
+        lstSignalType = new JList();
+        btnSetSignal = new JButton();
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -272,11 +278,6 @@ public class GLScopeMac extends JFrame {
             }
         });
 
-        lstSerialPorts.setModel(new AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         scrlSerialPorts.setViewportView(lstSerialPorts);
 
         btnConnect.setText("Connect");
@@ -634,7 +635,8 @@ public class GLScopeMac extends JFrame {
         jPanel2.add(lblGenFreq);
 
         sldFreq.setMaximum(15000);
-        sldFreq.setMinimum(50);
+        sldFreq.setMinimum(1);
+        sldFreq.setValue(116);
         sldFreq.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 sldFreqStateChanged(evt);
@@ -648,7 +650,30 @@ public class GLScopeMac extends JFrame {
                 cmdSetFreqMouseClicked(evt);
             }
         });
+        cmdSetFreq.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                cmdSetFreqStateChanged(evt);
+            }
+        });
         jPanel2.add(cmdSetFreq);
+        jPanel2.add(jLabel7);
+
+        lstSignalType.setModel(new AbstractListModel() {
+            String[] strings = { "Sine (& Square)", "Triangle (& Square)", "Off (& Square)" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(lstSignalType);
+
+        jPanel2.add(jScrollPane1);
+
+        btnSetSignal.setText("Set Signal Type");
+        btnSetSignal.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                btnSetSignalMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btnSetSignal);
 
         tabFunctionGenerator.addTab("Function Generator", jPanel2);
 
@@ -1117,21 +1142,29 @@ public class GLScopeMac extends JFrame {
 
     private void cmdSetFreqMouseClicked(MouseEvent evt) {//GEN-FIRST:event_cmdSetFreqMouseClicked
         int freq = sldFreq.getValue();
-        byte[] command = new byte[2];
-
 
         float adjFreq = freq * 4.1856776255226f;
         
-        short roundedFreq = (short) adjFreq;
+        int roundedFreq = (int) adjFreq;
+        roundedFreq = roundedFreq & 0xFFFF;
+        
+        byte[] byteArray = intToByteArray(roundedFreq);
+
+        byte LSB = byteArray[3];
+        byte MSB = byteArray[2];
+        
+        byte[] command = new byte[3];
+
+        command[0] = 'f';
+        command[1] = LSB;
+        command[2] = MSB;
 
 
-        System.out.println("Frequency: " + freq);
-        System.out.println("Adjusted Decimal: " + roundedFreq);
-        System.out.println("Adjusted Hex: " + Integer.toHexString((int) roundedFreq));
-
-        short a = (short) 0xC000;
-
-        System.out.println("a: " + Integer.toHexString((int) a));
+        //Send command to the arduino when it is ready
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
     }//GEN-LAST:event_cmdSetFreqMouseClicked
 
     private void jCheckBox2MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jCheckBox2MouseClicked
@@ -1168,6 +1201,40 @@ public class GLScopeMac extends JFrame {
     private void chkCh2EnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_chkCh2EnStateChanged
         ScopeSettings.ch2Enable = chkCh2En.isSelected();
     }//GEN-LAST:event_chkCh2EnStateChanged
+
+    private void cmdSetFreqStateChanged(ChangeEvent evt) {//GEN-FIRST:event_cmdSetFreqStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdSetFreqStateChanged
+
+    private void btnSetSignalMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnSetSignalMouseClicked
+        int type = lstSignalType.getSelectedIndex();
+
+        byte[] command = new byte[2];
+        command[0] = 'w';
+
+        if (type == 0)
+        {
+            //Sine wave
+            command[1] = '0';
+        }
+        else if (type == 1)
+        {
+            //Triangle wave
+            command[1] = '1';
+        }
+        else
+        {
+            command[1] = '2';
+            //Off
+        }
+        
+        
+        //Send command to the arduino when it is ready
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+    }//GEN-LAST:event_btnSetSignalMouseClicked
 
     /**
      * Called from within initComponents().
@@ -1218,10 +1285,13 @@ public class GLScopeMac extends JFrame {
     private JPanel TriggerPanel;
     private JButton btnConnect;
     private JButton btnDetectSerial;
+    private JButton btnSetSignal;
     private ButtonGroup buttonGroup1;
     private ButtonGroup buttonGroup2;
     private ButtonGroup buttonGroup3;
     private ButtonGroup buttonGroup4;
+    private ButtonGroup buttonGroup5;
+    private ButtonGroup buttonGroup6;
     private GLCanvas canvas;
     private JCheckBox chkCh2En;
     private JCheckBox chkCursorsEnabled;
@@ -1239,10 +1309,12 @@ public class GLScopeMac extends JFrame {
     private JLabel jLabel4;
     private JLabel jLabel5;
     private JLabel jLabel6;
+    private JLabel jLabel7;
     private JLabel jLabel9;
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel4;
+    private JScrollPane jScrollPane1;
     private JSlider jSlider1;
     private JSlider jSlider6;
     private JLabel lblFreq;
@@ -1252,6 +1324,7 @@ public class GLScopeMac extends JFrame {
     private JLabel lbldV;
     private JLabel lbldeltaT;
     private JList lstSerialPorts;
+    private JList lstSignalType;
     private JRadioButton radCh1;
     private JRadioButton radCh2;
     private JScrollPane scrlSerialPorts;
