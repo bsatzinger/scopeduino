@@ -29,6 +29,11 @@ public class ScopeSettings {
 
     static float lineWidth = .01f;
 
+
+    //channel enable variables
+    static boolean ch1Enable = true;
+    static boolean ch2Enable = true;
+
     //vertical cursor locations
     static float hc1 = -1.0f;
     static float hc2 = -1.0f;
@@ -87,4 +92,6 @@ public class ScopeSettings {
     static boolean enableTriggerIndicator = false;
     static float triggerIndicator = 0.1f;
     static float triggerWidth = 1.0f;
+    static int triggerCounts = 512;    //trigger value in counts
+
 }

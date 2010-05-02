@@ -155,7 +155,7 @@ public class GLScopeMac extends JFrame {
         canvas = new GLCanvas(createGLCapabilites());
         jSlider6 = new JSlider();
         jPanel1 = new JPanel();
-        jTabbedPane1 = new JTabbedPane();
+        tabFunctionGenerator = new JTabbedPane();
         ConnectionPanel = new JPanel();
         btnDetectSerial = new JButton();
         scrlSerialPorts = new JScrollPane();
@@ -179,17 +179,14 @@ public class GLScopeMac extends JFrame {
         sldTriggerLevel = new JSlider();
         jLabel3 = new JLabel();
         jCheckBox2 = new JCheckBox();
-        jLabel8 = new JLabel();
-        list2 = new java.awt.List();
         Ch1Panel = new JPanel();
-        jCheckBox3 = new JCheckBox();
+        ckhCh1En = new JCheckBox();
         jLabel5 = new JLabel();
         sldCh1VertScale = new JSlider();
-        jLabel6 = new JLabel();
-        jSlider5 = new JSlider();
-        jLabel7 = new JLabel();
-        list1 = new java.awt.List();
         Ch2Panel = new JPanel();
+        chkCh2En = new JCheckBox();
+        jLabel6 = new JLabel();
+        jSlider1 = new JSlider();
         CursorPanel = new JPanel();
         chkCursorsEnabled = new JCheckBox();
         jLabel11 = new JLabel();
@@ -310,13 +307,13 @@ public class GLScopeMac extends JFrame {
                 .addComponent(scrlSerialPorts, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(ComponentPlacement.RELATED)
                 .addComponent(btnConnect)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Connection", ConnectionPanel);
+        tabFunctionGenerator.addTab("Connection", ConnectionPanel);
 
         DisplayPanel.setBorder(BorderFactory.createEtchedBorder());
-        DisplayPanel.setLayout(new GridLayout(15, 0));
+        DisplayPanel.setLayout(new GridLayout(13, 1));
 
         chkGrid.setSelected(true);
         chkGrid.setText("Grid");
@@ -331,7 +328,6 @@ public class GLScopeMac extends JFrame {
         DisplayPanel.add(jLabel2);
 
         sldBackground.setMajorTickSpacing(100);
-        sldBackground.setPaintTicks(true);
         sldBackground.setSnapToTicks(true);
         sldBackground.setValue(0);
         sldBackground.addChangeListener(new ChangeListener() {
@@ -422,11 +418,13 @@ public class GLScopeMac extends JFrame {
         });
         DisplayPanel.add(sldSectionOffset);
 
-        jTabbedPane1.addTab("Display", DisplayPanel);
+        tabFunctionGenerator.addTab("Display", DisplayPanel);
 
-        sldTriggerLevel.setMaximum(1024);
+        TriggerPanel.setLayout(new GridLayout(10, 0));
+
+        sldTriggerLevel.setMaximum(1023);
         sldTriggerLevel.setMinimum(1);
-        sldTriggerLevel.setValue(127);
+        sldTriggerLevel.setValue(512);
         sldTriggerLevel.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent evt) {
                 sldTriggerLevelMouseReleased(evt);
@@ -443,62 +441,43 @@ public class GLScopeMac extends JFrame {
                 sldTriggerLevelStateChanged(evt);
             }
         });
+        TriggerPanel.add(sldTriggerLevel);
 
         jLabel3.setText("Trigger Level");
+        TriggerPanel.add(jLabel3);
 
         jCheckBox2.setText("Trigger Enabled");
+        jCheckBox2.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jCheckBox2MouseClicked(evt);
+            }
+        });
         jCheckBox2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 jCheckBox2ActionPerformed(evt);
             }
         });
+        TriggerPanel.add(jCheckBox2);
 
-        jLabel8.setText("Trigger Source");
+        tabFunctionGenerator.addTab("Trigger", TriggerPanel);
 
-        GroupLayout TriggerPanelLayout = new GroupLayout(TriggerPanel);
-        TriggerPanel.setLayout(TriggerPanelLayout);
-        TriggerPanelLayout.setHorizontalGroup(
-            TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGroup(TriggerPanelLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
-                    .addComponent(jCheckBox2)
-                    .addComponent(sldTriggerLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addGroup(TriggerPanelLayout.createParallelGroup(Alignment.TRAILING, false)
-                        .addComponent(list2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
-        TriggerPanelLayout.setVerticalGroup(
-            TriggerPanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGroup(TriggerPanelLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel3)
-                .addGap(36, 36, 36)
-                .addComponent(sldTriggerLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jCheckBox2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(list2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
-        );
+        Ch1Panel.setLayout(new GridLayout(8, 0));
 
-        jTabbedPane1.addTab("Trigger", TriggerPanel);
-
-        Ch1Panel.setLayout(new GridLayout(12, 0));
-
-        jCheckBox3.setText("Channel 1 Enable");
-        jCheckBox3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
+        ckhCh1En.setSelected(true);
+        ckhCh1En.setText("Channel 1 Enable");
+        ckhCh1En.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                ckhCh1EnStateChanged(evt);
             }
         });
-        Ch1Panel.add(jCheckBox3);
+        ckhCh1En.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                ckhCh1EnActionPerformed(evt);
+            }
+        });
+        Ch1Panel.add(ckhCh1En);
 
-        jLabel5.setText("Vertical Scale");
+        jLabel5.setText("Vertical Scale:");
         Ch1Panel.add(jLabel5);
 
         sldCh1VertScale.setMajorTickSpacing(1);
@@ -519,37 +498,31 @@ public class GLScopeMac extends JFrame {
         });
         Ch1Panel.add(sldCh1VertScale);
 
-        jLabel6.setText("Vertical Offset");
-        Ch1Panel.add(jLabel6);
+        tabFunctionGenerator.addTab("Ch1", Ch1Panel);
 
-        jSlider5.setMaximum(255);
-        jSlider5.setMinimum(1);
-        jSlider5.setValue(127);
-        jSlider5.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent evt) {
-                jSlider5MouseReleased(evt);
+        Ch2Panel.setLayout(new GridLayout(8, 0));
+
+        chkCh2En.setSelected(true);
+        chkCh2En.setText("Channel 2 Enable");
+        chkCh2En.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                chkCh2EnStateChanged(evt);
             }
         });
-        Ch1Panel.add(jSlider5);
+        Ch2Panel.add(chkCh2En);
 
-        jLabel7.setText("Color");
-        Ch1Panel.add(jLabel7);
-        Ch1Panel.add(list1);
+        jLabel6.setText("Vertical Scale:");
+        Ch2Panel.add(jLabel6);
 
-        jTabbedPane1.addTab("Ch1", Ch1Panel);
+        jSlider1.setMaximum(3);
+        jSlider1.setMinimum(1);
+        jSlider1.setMinorTickSpacing(1);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setSnapToTicks(true);
+        jSlider1.setValue(1);
+        Ch2Panel.add(jSlider1);
 
-        GroupLayout Ch2PanelLayout = new GroupLayout(Ch2Panel);
-        Ch2Panel.setLayout(Ch2PanelLayout);
-        Ch2PanelLayout.setHorizontalGroup(
-            Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
-        );
-        Ch2PanelLayout.setVerticalGroup(
-            Ch2PanelLayout.createParallelGroup(Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Ch2", Ch2Panel);
+        tabFunctionGenerator.addTab("Ch2", Ch2Panel);
 
         CursorPanel.setLayout(new GridLayout(14, 0));
 
@@ -653,7 +626,7 @@ public class GLScopeMac extends JFrame {
         lbldV.setText("dV =");
         CursorPanel.add(lbldV);
 
-        jTabbedPane1.addTab("Cursors", CursorPanel);
+        tabFunctionGenerator.addTab("Cursors", CursorPanel);
 
         jPanel2.setLayout(new GridLayout(6, 0));
 
@@ -677,7 +650,7 @@ public class GLScopeMac extends JFrame {
         });
         jPanel2.add(cmdSetFreq);
 
-        jTabbedPane1.addTab("tab7", jPanel2);
+        tabFunctionGenerator.addTab("Function Generator", jPanel2);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -691,7 +664,7 @@ public class GLScopeMac extends JFrame {
                         .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE))
                 .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabFunctionGenerator, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -706,12 +679,12 @@ public class GLScopeMac extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                            .addComponent(jTabbedPane1, 0, 0, Short.MAX_VALUE)
+                            .addComponent(tabFunctionGenerator, 0, 0, Short.MAX_VALUE)
                             .addComponent(canvas, GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        jTabbedPane1.getAccessibleContext().setAccessibleName("Connection");
+        tabFunctionGenerator.getAccessibleContext().setAccessibleName("Connection");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -807,36 +780,20 @@ public class GLScopeMac extends JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void sldTriggerLevelMouseReleased(MouseEvent evt) {//GEN-FIRST:event_sldTriggerLevelMouseReleased
-        int val = sldTriggerLevel.getValue();
-
-        System.out.println("Sample Slider: " + val);
-
-        byte[] command = new byte[2];
-
-        command[0] = 'c';
-        command[1] = (byte) val;
-
-        if (rend.reader != null)
-        {
-            rend.reader.commandQueue.add(command);
-        }
+        
     }//GEN-LAST:event_sldTriggerLevelMouseReleased
 
     private void jCheckBox2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
-    private void jCheckBox3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void ckhCh1EnActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ckhCh1EnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_ckhCh1EnActionPerformed
 
     private void sldTTLMouseReleased(MouseEvent evt) {//GEN-FIRST:event_sldTTLMouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_sldTTLMouseReleased
-
-    private void jSlider5MouseReleased(MouseEvent evt) {//GEN-FIRST:event_jSlider5MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSlider5MouseReleased
 
     private void sldSectionWidth1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldSectionWidth1StateChanged
         ScopeSettings.horizontalWindow = sldSectionWidth1.getValue();
@@ -1105,10 +1062,46 @@ public class GLScopeMac extends JFrame {
     }//GEN-LAST:event_sldTriggerLevelMouseExited
 
     private void sldTriggerLevelStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldTriggerLevelStateChanged
-       int val = sldTriggerLevel.getValue();
+        int val = sldTriggerLevel.getValue();
+
+        //Check if the value has actually changed.  Saves data sent to the arduino
+        if(val == ScopeSettings.triggerCounts)
+        {
+            return;
+        }
+
+        ScopeSettings.triggerCounts = val;
 
        ScopeSettings.triggerIndicator = val / 512.0f - 1.0f;
+
+       byte[] byteArray = intToByteArray(val);
+
+       System.out.println("LSB: " + byteArray[3] + " MSB: " + byteArray[2]);
+
+       byte[] command = new byte[3];
+
+       command[0] = 'l';
+       command[1] = byteArray[3];   //least significant byte
+       command[2] = byteArray[2];   //second least significant byte
+
+       //Send command to the arduino when it is ready
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+
+       
     }//GEN-LAST:event_sldTriggerLevelStateChanged
+
+    public static final byte[] intToByteArray(int value)
+    {
+        return new byte [] {
+            (byte)((value >> 24) & 0xFF),
+            (byte)((value >> 16) & 0xFF),
+            (byte)((value >> 8) & 0xFF),
+            (byte)(value & 0xFF)
+        };
+    }
 
     private void chkGridActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chkGridActionPerformed
         ScopeSettings.grid = chkGrid.isSelected();
@@ -1140,6 +1133,41 @@ public class GLScopeMac extends JFrame {
 
         System.out.println("a: " + Integer.toHexString((int) a));
     }//GEN-LAST:event_cmdSetFreqMouseClicked
+
+    private void jCheckBox2MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jCheckBox2MouseClicked
+        boolean triggers = jCheckBox2.isSelected();
+
+        byte[] command = new byte[2];
+
+        //trigger enable/disable command
+        command[0] = 'e';
+
+        if (triggers)
+        {
+            //enable
+            command[1] = '1';
+        }
+        else
+        {
+            command[1] = '0';
+        }
+
+        //Send command to the arduino when it is ready
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+
+    }//GEN-LAST:event_jCheckBox2MouseClicked
+
+    private void ckhCh1EnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_ckhCh1EnStateChanged
+        ScopeSettings.ch1Enable = ckhCh1En.isSelected();
+
+    }//GEN-LAST:event_ckhCh1EnStateChanged
+
+    private void chkCh2EnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_chkCh2EnStateChanged
+        ScopeSettings.ch2Enable = chkCh2En.isSelected();
+    }//GEN-LAST:event_chkCh2EnStateChanged
 
     /**
      * Called from within initComponents().
@@ -1195,12 +1223,13 @@ public class GLScopeMac extends JFrame {
     private ButtonGroup buttonGroup3;
     private ButtonGroup buttonGroup4;
     private GLCanvas canvas;
+    private JCheckBox chkCh2En;
     private JCheckBox chkCursorsEnabled;
     private JCheckBox chkGrid;
+    private JCheckBox ckhCh1En;
     private JButton cmdSetFreq;
     private JCheckBox jCheckBox1;
     private JCheckBox jCheckBox2;
-    private JCheckBox jCheckBox3;
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
@@ -1210,23 +1239,18 @@ public class GLScopeMac extends JFrame {
     private JLabel jLabel4;
     private JLabel jLabel5;
     private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
     private JLabel jLabel9;
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel4;
-    private JSlider jSlider5;
+    private JSlider jSlider1;
     private JSlider jSlider6;
-    private JTabbedPane jTabbedPane1;
     private JLabel lblFreq;
     private JLabel lblGenFreq;
     private JLabel lblV1;
     private JLabel lblV2;
     private JLabel lbldV;
     private JLabel lbldeltaT;
-    private java.awt.List list1;
-    private java.awt.List list2;
     private JList lstSerialPorts;
     private JRadioButton radCh1;
     private JRadioButton radCh2;
@@ -1244,6 +1268,7 @@ public class GLScopeMac extends JFrame {
     private JSlider sldTriggerLevel;
     private JSlider sldVertCursor1;
     private JSlider sldVertCursor2;
+    private JTabbedPane tabFunctionGenerator;
     // End of variables declaration//GEN-END:variables
 
 }

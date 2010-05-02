@@ -266,7 +266,7 @@ public class GLRenderer implements GLEventListener {
 
         gl.glLineWidth(ScopeSettings.triggerWidth);
         gl.glBegin(GL.GL_LINES);
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
+            gl.glColor3f(0.0f, 0.0f, 1.0f);
 
             gl.glVertex2f(-1.0f, ScopeSettings.triggerIndicator);
             gl.glVertex2f(1.0f, ScopeSettings.triggerIndicator);
@@ -356,6 +356,16 @@ public class GLRenderer implements GLEventListener {
 
     public void drawGraph(GL gl, Trace t)
     {
+        //Is this channel enabled?
+        if ((t.channel == 1) && (ScopeSettings.ch1Enable == false))
+        {
+            return;
+        }
+        if ((t.channel == 2) && (ScopeSettings.ch2Enable == false))
+        {
+            return;
+        }
+
         float[] rgb = t.agedColor();
 
         gl.glPushMatrix();

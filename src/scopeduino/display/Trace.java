@@ -18,6 +18,8 @@ public class Trace implements Comparable{
     public static int TTL = 150;
     public static float alpha = 0.5f;
 
+    public int channel = 1;
+
 
     public int age;
     public double[] data;
