@@ -265,7 +265,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
-                <Property name="text" type="java.lang.String" value=" Alpha:"/>
+                <Property name="text" type="java.lang.String" value=" Color Intensity:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSlider" name="sldAlpha">
@@ -276,22 +276,15 @@
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldAlphaStateChanged"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Hard First Trace"/>
-              </Properties>
-              <Events>
-                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jCheckBox1StateChanged"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Line Width"/>
+                <Property name="text" type="java.lang.String" value="Line Width:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSlider" name="sldLineWidth">
               <Properties>
                 <Property name="minimum" type="int" value="5"/>
+                <Property name="value" type="int" value="15"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldLineWidthStateChanged"/>
@@ -340,6 +333,11 @@
             <Property name="rows" type="int" value="10"/>
           </Layout>
           <SubComponents>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Trigger Level"/>
+              </Properties>
+            </Component>
             <Component class="javax.swing.JSlider" name="sldTriggerLevel">
               <Properties>
                 <Property name="maximum" type="int" value="1023"/>
@@ -352,11 +350,6 @@
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sldTriggerLevelMouseEntered"/>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldTriggerLevelStateChanged"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Trigger Level"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jCheckBox2">
               <Properties>
@@ -401,16 +394,20 @@
             <Component class="javax.swing.JSlider" name="sldCh1VertScale">
               <Properties>
                 <Property name="majorTickSpacing" type="int" value="1"/>
-                <Property name="maximum" type="int" value="3"/>
-                <Property name="minimum" type="int" value="1"/>
+                <Property name="maximum" type="int" value="2"/>
                 <Property name="paintTicks" type="boolean" value="true"/>
                 <Property name="snapToTicks" type="boolean" value="true"/>
-                <Property name="value" type="int" value="1"/>
+                <Property name="value" type="int" value="0"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldCh1VertScaleStateChanged"/>
                 <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="sldCh1VertScalePropertyChange"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblCh1Range">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ch 1 Range:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -442,14 +439,22 @@
                 <Property name="text" type="java.lang.String" value="Vertical Scale:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSlider" name="jSlider1">
+            <Component class="javax.swing.JSlider" name="sldCh2VertScale">
               <Properties>
-                <Property name="maximum" type="int" value="3"/>
-                <Property name="minimum" type="int" value="1"/>
+                <Property name="maximum" type="int" value="5"/>
+                <Property name="minimum" type="int" value="3"/>
                 <Property name="minorTickSpacing" type="int" value="1"/>
+                <Property name="paintLabels" type="boolean" value="true"/>
                 <Property name="paintTicks" type="boolean" value="true"/>
                 <Property name="snapToTicks" type="boolean" value="true"/>
-                <Property name="value" type="int" value="1"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sldCh2VertScaleStateChanged"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblCh2Range">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ch 2 Range:"/>
               </Properties>
             </Component>
           </SubComponents>

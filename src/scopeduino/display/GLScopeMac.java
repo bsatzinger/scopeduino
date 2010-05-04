@@ -171,24 +171,25 @@ public class GLScopeMac extends JFrame {
         sldTTL = new JSlider();
         jLabel9 = new JLabel();
         sldAlpha = new JSlider();
-        jCheckBox1 = new JCheckBox();
         jLabel10 = new JLabel();
         sldLineWidth = new JSlider();
         jLabel4 = new JLabel();
         sldSectionWidth1 = new JSlider();
         sldSectionOffset = new JSlider();
         TriggerPanel = new JPanel();
-        sldTriggerLevel = new JSlider();
         jLabel3 = new JLabel();
+        sldTriggerLevel = new JSlider();
         jCheckBox2 = new JCheckBox();
         Ch1Panel = new JPanel();
         ckhCh1En = new JCheckBox();
         jLabel5 = new JLabel();
         sldCh1VertScale = new JSlider();
+        lblCh1Range = new JLabel();
         Ch2Panel = new JPanel();
         chkCh2En = new JCheckBox();
         jLabel6 = new JLabel();
-        jSlider1 = new JSlider();
+        sldCh2VertScale = new JSlider();
+        lblCh2Range = new JLabel();
         CursorPanel = new JPanel();
         chkCursorsEnabled = new JCheckBox();
         jLabel11 = new JLabel();
@@ -356,7 +357,7 @@ public class GLScopeMac extends JFrame {
         });
         DisplayPanel.add(sldTTL);
 
-        jLabel9.setText(" Alpha:");
+        jLabel9.setText(" Color Intensity:");
         DisplayPanel.add(jLabel9);
 
         sldAlpha.setMinimum(5);
@@ -367,18 +368,11 @@ public class GLScopeMac extends JFrame {
         });
         DisplayPanel.add(sldAlpha);
 
-        jCheckBox1.setText("Hard First Trace");
-        jCheckBox1.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent evt) {
-                jCheckBox1StateChanged(evt);
-            }
-        });
-        DisplayPanel.add(jCheckBox1);
-
-        jLabel10.setText("Line Width");
+        jLabel10.setText("Line Width:");
         DisplayPanel.add(jLabel10);
 
         sldLineWidth.setMinimum(5);
+        sldLineWidth.setValue(15);
         sldLineWidth.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 sldLineWidthStateChanged(evt);
@@ -423,6 +417,9 @@ public class GLScopeMac extends JFrame {
 
         TriggerPanel.setLayout(new GridLayout(10, 0));
 
+        jLabel3.setText("Trigger Level");
+        TriggerPanel.add(jLabel3);
+
         sldTriggerLevel.setMaximum(1023);
         sldTriggerLevel.setMinimum(1);
         sldTriggerLevel.setValue(512);
@@ -443,9 +440,6 @@ public class GLScopeMac extends JFrame {
             }
         });
         TriggerPanel.add(sldTriggerLevel);
-
-        jLabel3.setText("Trigger Level");
-        TriggerPanel.add(jLabel3);
 
         jCheckBox2.setText("Trigger Enabled");
         jCheckBox2.addMouseListener(new MouseAdapter() {
@@ -482,11 +476,10 @@ public class GLScopeMac extends JFrame {
         Ch1Panel.add(jLabel5);
 
         sldCh1VertScale.setMajorTickSpacing(1);
-        sldCh1VertScale.setMaximum(3);
-        sldCh1VertScale.setMinimum(1);
+        sldCh1VertScale.setMaximum(2);
         sldCh1VertScale.setPaintTicks(true);
         sldCh1VertScale.setSnapToTicks(true);
-        sldCh1VertScale.setValue(1);
+        sldCh1VertScale.setValue(0);
         sldCh1VertScale.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 sldCh1VertScaleStateChanged(evt);
@@ -498,6 +491,9 @@ public class GLScopeMac extends JFrame {
             }
         });
         Ch1Panel.add(sldCh1VertScale);
+
+        lblCh1Range.setText("Ch 1 Range:");
+        Ch1Panel.add(lblCh1Range);
 
         tabFunctionGenerator.addTab("Ch1", Ch1Panel);
 
@@ -515,13 +511,21 @@ public class GLScopeMac extends JFrame {
         jLabel6.setText("Vertical Scale:");
         Ch2Panel.add(jLabel6);
 
-        jSlider1.setMaximum(3);
-        jSlider1.setMinimum(1);
-        jSlider1.setMinorTickSpacing(1);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setSnapToTicks(true);
-        jSlider1.setValue(1);
-        Ch2Panel.add(jSlider1);
+        sldCh2VertScale.setMaximum(5);
+        sldCh2VertScale.setMinimum(3);
+        sldCh2VertScale.setMinorTickSpacing(1);
+        sldCh2VertScale.setPaintLabels(true);
+        sldCh2VertScale.setPaintTicks(true);
+        sldCh2VertScale.setSnapToTicks(true);
+        sldCh2VertScale.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldCh2VertScaleStateChanged(evt);
+            }
+        });
+        Ch2Panel.add(sldCh2VertScale);
+
+        lblCh2Range.setText("Ch 2 Range:");
+        Ch2Panel.add(lblCh2Range);
 
         tabFunctionGenerator.addTab("Ch2", Ch2Panel);
 
@@ -730,10 +734,6 @@ public class GLScopeMac extends JFrame {
         ScopeSettings.backg = colorf;
         ScopeSettings.backr = colorf;
     }//GEN-LAST:event_sldBackgroundStateChanged
-
-    private void jCheckBox1StateChanged(ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
-        ScopeSettings.hardFirstTrace = jCheckBox1.isSelected();
-    }//GEN-LAST:event_jCheckBox1StateChanged
 
     private void canvasMouseDragged(MouseEvent evt) {//GEN-FIRST:event_canvasMouseDragged
         // TODO add your handling code here:
@@ -1028,11 +1028,11 @@ public class GLScopeMac extends JFrame {
 
         command[0] = 'a';
 
-        if (val == 1)
+        if (val == 0)
         {
             command[1] = '0';
         }
-        else if (val == 2)
+        else if (val == 1)
         {
             command[1] = '1';
         }
@@ -1051,20 +1051,20 @@ public class GLScopeMac extends JFrame {
 
 
         //update display info
-        if (val == 1)
+        if (val == 0)
         {
-            ScopeSettings.ch1MinV = 0.0f;
-            ScopeSettings.ch1MaxV = 5.0f;
+            ScopeSettings.ch1MinV = -0.250f;
+            ScopeSettings.ch1MaxV = 4.825f;
+        }
+        else if (val == 1)
+        {
+            ScopeSettings.ch1MinV = -4.594f;
+            ScopeSettings.ch1MaxV = 5.615f;
         }
         else if (val == 2)
         {
-            ScopeSettings.ch1MinV = -5.0f;
-            ScopeSettings.ch1MaxV = 5.0f;
-        }
-        else if (val == 3)
-        {
             ScopeSettings.ch1MinV = -10.0f;
-            ScopeSettings.ch1MaxV = 8.438f;
+            ScopeSettings.ch1MaxV = 9.688f;
         }
         else
         {
@@ -1072,6 +1072,8 @@ public class GLScopeMac extends JFrame {
             ScopeSettings.ch1MinV = 0.0f;
             ScopeSettings.ch1MaxV = 5.0f;
         }
+
+        lblCh1Range.setText("Ch 2 Range: " + ScopeSettings.ch1MinV + "V to " + ScopeSettings.ch1MaxV + "V");
 
         recalculateVertLabels();
     }//GEN-LAST:event_sldCh1VertScaleStateChanged
@@ -1236,6 +1238,65 @@ public class GLScopeMac extends JFrame {
         }
     }//GEN-LAST:event_btnSetSignalMouseClicked
 
+    private void sldCh2VertScaleStateChanged(ChangeEvent evt) {//GEN-FIRST:event_sldCh2VertScaleStateChanged
+        int val = sldCh2VertScale.getValue();
+
+        //send arduino command
+        byte[] command = new byte[2];
+         //channel 1 (a) scale command
+
+        command[0] = 'b';
+
+        if (val == 3)
+        {
+            command[1] = '3';
+        }
+        else if (val == 4)
+        {
+            command[1] = '4';
+        }
+        else
+        {
+            command[1] = '5';
+        }
+
+
+        System.out.println("Channel 2 uses : " + command[1]);
+
+        if (rend.reader != null)
+        {
+            rend.reader.commandQueue.add(command);
+        }
+
+
+        //update display info
+        if (val == 5)
+        {
+            ScopeSettings.ch2MinV = -.1812f;
+            ScopeSettings.ch2MaxV = 4.812f;
+        }
+        else if (val == 4)
+        {
+            ScopeSettings.ch2MinV = -4.687f;
+            ScopeSettings.ch2MaxV = 5.625f;
+        }
+        else if (val == 3)
+        {
+            ScopeSettings.ch2MinV = -10.0f;
+            ScopeSettings.ch2MaxV = 9.438f;
+        }
+        else
+        {
+            //default
+            ScopeSettings.ch2MinV = 0.0f;
+            ScopeSettings.ch2MaxV = 5.0f;
+        }
+
+        lblCh2Range.setText("Ch 2 Range: " + ScopeSettings.ch2MinV + "V to " + ScopeSettings.ch2MaxV + "V");
+
+        recalculateVertLabels();
+    }//GEN-LAST:event_sldCh2VertScaleStateChanged
+
     /**
      * Called from within initComponents().
      * hint: to customize the generated code choose 'Customize Code' in the contextmenu
@@ -1298,7 +1359,6 @@ public class GLScopeMac extends JFrame {
     private JCheckBox chkGrid;
     private JCheckBox ckhCh1En;
     private JButton cmdSetFreq;
-    private JCheckBox jCheckBox1;
     private JCheckBox jCheckBox2;
     private JLabel jLabel1;
     private JLabel jLabel10;
@@ -1315,8 +1375,9 @@ public class GLScopeMac extends JFrame {
     private JPanel jPanel2;
     private JPanel jPanel4;
     private JScrollPane jScrollPane1;
-    private JSlider jSlider1;
     private JSlider jSlider6;
+    private JLabel lblCh1Range;
+    private JLabel lblCh2Range;
     private JLabel lblFreq;
     private JLabel lblGenFreq;
     private JLabel lblV1;
@@ -1331,6 +1392,7 @@ public class GLScopeMac extends JFrame {
     private JSlider sldAlpha;
     private JSlider sldBackground;
     private JSlider sldCh1VertScale;
+    private JSlider sldCh2VertScale;
     private JSlider sldFreq;
     private JSlider sldHorizCursor1;
     private JSlider sldHorizCursor2;
